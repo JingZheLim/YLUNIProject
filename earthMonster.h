@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 #include <iostream>
-
+#include "monster.h"
 
 
 class earthMonster : public monster {
