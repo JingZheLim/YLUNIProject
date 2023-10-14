@@ -3,10 +3,11 @@
 #include <string>
 using namespace std;
 #include <iostream>
+#include "monster.h"
 
 
 
-class fireMonster  : public monster{
+class fireMonster  : public monster {
     protected:
     int burnDamage;
 
