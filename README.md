@@ -1,2 +1,2 @@
 # YLUNIProject
-Yaline &amp; Lucas' Year 1 OOP Project
+Yaline and Lucas' Year 1 OOP Project
