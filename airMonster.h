@@ -12,9 +12,11 @@ class airMonster : public monster {
 
  public:
   airMonster();
-  int calculateDmgDone();
-  int damageRecieved();
-  void attack();
+  int damageRecieved(int playersAttack);
+  int attack(int playersDefence);
+  int get_airHealth();
+  int get_airAttack();
+  int get_airDefence();
 };
 
 #endif

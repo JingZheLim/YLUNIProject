@@ -14,10 +14,19 @@ airMonster::airMonster() {
   this->mAtkType = "Feather Dance";
   this->atkUp = 5;
 }
-int airMonster::calculateDmgDone() {
 
+int airMonster::damageRecieved(int playersAttack) {}
+
+int airMonster::attack(int playersDefence) {
+  int currentAttack = mAttack;
+  int damage = currentAttack - playersDefence;
+        cout << this->mName << " used " << this->mAtkType << " and did " << damage << " amounts of damage!!" << endl;
+        cout << this->mName << "\'s Attack rose by " << atkUp << endl;
+        cout << "-----------------------------------------------------" << endl;
+        this->mAttack += this->atkUp;
+        return damage;
 }
-int airMonster::damageRecieved() {}
-void airMonster::attack() {
-        cout << this->mName << "used " << this->mAtkType << "and did " << calculateDmgDone() << "amounts of damage!!" << endl;
-}
+
+  int airMonster::get_airHealth(){return mHealth;}
+  int airMonster::get_airAttack(){return mAttack;}
+  int airMonster::get_airDefence(){return mDefence;}

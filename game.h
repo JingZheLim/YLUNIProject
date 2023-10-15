@@ -1,7 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
-#include <iostream>
-#include <string>
+#include <cstdlib>   // rand()
+#include <iostream>  // input output
+#include <string>    // strings
 
 #include "airMonster.h"
 #include "earthMonster.h"
@@ -14,6 +15,16 @@
 using namespace std;
 
 class game : menu {
+ private:
+  int currentHealth;
+  int randNumber;
+
+  // creating the objects for monsters
+  /*waterMonster WaterMonsters;
+  earthMonster EarthMonsters;
+  fireMonster fireMonsters;*/
+  airMonster AirMonsters;
+
  public:
   void run() {  // starts the entire game
 
@@ -24,7 +35,7 @@ class game : menu {
       system("clear");            // clears terminal
       menuElement();
       // move into different storylines for the different elements
-      if (get_userChoice() == 1) {  // Water
+      if (get_userChoice() == 1) {  // Water (creates the object)
         system("clear");
         cout << "                      GAME START                     " << endl;
         cout << "-----------------------------------------------------" << endl;
@@ -43,16 +54,82 @@ class game : menu {
         cout << "What is your name brave mage?" << endl;
         cout << "My name is: " << endl;
         // cin << playerName;
+
+        int tempPotions = 0;  // get rid of these after
+        int pDefence = 50;
+        int pAttack = 50;
+        currentHealth = 100;
+
+        // blah blah stuff happens
+        // battle Air Monster
+        system("clear");
+        int turn;
+
+        if (rand() % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+
+        while (currentHealth > 0 || AirMonsters.get_airHealth() > 0) {
+          if (turn % 2 == 0) {              // players turn
+            if (tempPotions >= 1) {  // if have potion display normal menu
+
+              cout << "HP: " << currentHealth  // REPLACE 100 WITH USERS HP AND
+                                               // MANA AND HEALTHPOTS
+                   << "         Mana: 100"
+                   << "        Health Potions: 2" << endl;
+              menuFight();
+              if (get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy player ATK
+                break;
+              } else if (get_userChoice() == 2) {  // Spells
+                // display spells
+                break;
+              } else if (get_userChoice() == 3) {  // Use health potion
+                                                   // use health potion if have
+              }
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << currentHealth // REPLACE 100 WITH USERS HP AND MANA AND
+                                 // HEALTHPOTS
+                   << "         Mana: 100"
+                   << "        Health Potions: 0" << endl;
+              menuFightNP();
+              if (get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy player ATK
+              } else if (get_userChoice() == 2) {  // Spells
+                // display spells
+              }
+            }
+          } else {  // monsters turn
+            currentHealth -= AirMonsters.attack(pDefence);
+          }
+          turn++;
+        }
+        // blah blah stuff happens
+        // battle Earth Monster
+
+        // blah blah stuff happens
+        // battle Fire Monster
+
+        // blah blah stuff happens
+        // battle Random? Monster
+
+        // blah blah stuff happens
+        // battle Elemental Dragon
       } else if (get_userChoice() == 2) {  // Earth
         system("clear");
         cout << "                      GAME START                     " << endl;
         cout << "-----------------------------------------------------" << endl;
         cout << "The earth kingdom is sick and tired of everyone fighting "
                 "because of the evil Dragon\'s powers and chaos it creates so "
-                "you must help your kingdom to defeat it and restore peace for "
+                "you must help your kingdom to defeat it and restore peace "
+                "for "
                 "everyone."
              << endl;
-        cout << "However you must also defeat the other elements\' monsters in "
+        cout << "However you must also defeat the other elements\' monsters "
+                "in "
                 "order to become powerful enough to take on the dragon."
              << endl;
         cout << "You are a wise earth elder. " << endl;
@@ -60,6 +137,22 @@ class game : menu {
         cout << "What is your name wise elder??" << endl;
         cout << "My name is: " << endl;
         // cin << playerName;
+
+        // blah blah stuff happens
+        // battle Air Monster
+
+        // blah blah stuff happens
+        // battle Water Monster
+
+        // blah blah stuff happens
+        // battle Fire Monster
+
+        // blah blah stuff happens
+        // battle Random? Monster
+
+        // blah blah stuff happens
+        // battle Elemental Dragon
+
       } else if (get_userChoice() == 3) {  // Fire
         system("clear");
         cout << "                      GAME START                     " << endl;
@@ -74,6 +167,21 @@ class game : menu {
         cout << "What is your name warrior?" << endl;
         cout << "My name is: " << endl;
         // cin << playerName;
+
+        // blah blah stuff happens
+        // battle Air Monster
+
+        // blah blah stuff happens
+        // battle Earth Monster
+
+        // blah blah stuff happens
+        // battle Water Monster
+
+        // blah blah stuff happens
+        // battle Random? Monster
+
+        // blah blah stuff happens
+        // battle Elemental Dragon
       } else if (get_userChoice() == 4) {  // Air
         system("clear");
         cout << "                      GAME START                     " << endl;
@@ -91,6 +199,21 @@ class game : menu {
         cout << "What is your name adventurer?" << endl;
         cout << "My name is: " << endl;
         // cin << playerName;
+
+        // blah blah stuff happens
+        // battle Water Monster
+
+        // blah blah stuff happens
+        // battle Fire Monster
+
+        // blah blah stuff happens
+        // battle Earth Monster
+
+        // blah blah stuff happens
+        // battle Random? Monster
+
+        // blah blah stuff happens
+        // battle Elemental Dragon
       }
     }
 

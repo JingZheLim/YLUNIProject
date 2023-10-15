@@ -13,9 +13,8 @@ class monster{
     string mAtkType = " ";
 
     public:
-    virtual int calculateDmgDone() = 0;
-    virtual int damageRecieved() = 0;
-    virtual void attack() = 0;  
+    virtual int damageRecieved(int playersAttack) = 0;
+    virtual int attack(int playersDefence) = 0;  
 
 };
 
