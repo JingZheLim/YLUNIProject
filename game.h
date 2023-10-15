@@ -18,6 +18,7 @@ class game : menu {
  private:
   int currentHealth;
   int randNumber;
+  string playerName;
 
   // creating the objects for monsters
   /*waterMonster WaterMonsters;
@@ -52,52 +53,69 @@ class game : menu {
         cout << "You are a brave water mage." << endl;
         cout << "-----------------------------------------------------" << endl;
         cout << "What is your name brave mage?" << endl;
-        cout << "My name is: " << endl;
-        // cin << playerName;
+        cout << "My name is: ";
+        cin >> playerName; // inputs users name
 
-        int tempPotions = 0;  // get rid of these after
+        int tempPotions = 2;  // get rid of these after
         int pDefence = 50;
-        int pAttack = 50;
+        int pAttack = 70;
         currentHealth = 100;
+        int damage;
 
         // blah blah stuff happens
+        
         // battle Air Monster
         system("clear");
         int turn;
-
-        if (rand() % 2 == 0) {
+        randNumber = rand()% 2;
+        cout << randNumber << endl;
+        if (randNumber% 2 == 0) {
           turn = 0;  // Player starts first
         } else {
           turn = 1;  // Monster starts first
         }
 
-        while (currentHealth > 0 || AirMonsters.get_airHealth() > 0) {
-          if (turn % 2 == 0) {              // players turn
+        while (currentHealth > 0 && AirMonsters.get_airHealth() > 0) {
+          if (turn % 2 == 0) {       // players turn
             if (tempPotions >= 1) {  // if have potion display normal menu
 
               cout << "HP: " << currentHealth  // REPLACE 100 WITH USERS HP AND
                                                // MANA AND HEALTHPOTS
                    << "         Mana: 100"
-                   << "        Health Potions: 2" << endl;
+                   << "        Health Potions: " << tempPotions << endl;
               menuFight();
               if (get_userChoice() == 1) {  // Basic Attack
                 // attacks the enemy player ATK
-                break;
+                damage = AirMonsters.damageRecieved(pAttack);
+                cout << playerName << "\'s basic attack did " << damage << " damage to " << AirMonsters.get_airName() << "!!" <<endl;
+                cout << AirMonsters.get_airName() << " has " << AirMonsters.get_airHealth() << " health" << endl;
+
               } else if (get_userChoice() == 2) {  // Spells
                 // display spells
-                break;
-              } else if (get_userChoice() == 3) {  // Use health potion
+              } else if (get_userChoice() == 3) {  // Use health potion (heals 50 HP)
                                                    // use health potion if have
+                cout << playerName << " used a health potion" << endl;   
+                cout << "--------------------------------------------------" << endl;                                
+                tempPotions--;
+                currentHealth += 50;
+                if (currentHealth > 100) {
+                  currentHealth = 100;
+                }
+                turn++;
               }
             } else {  // if doesn't display menuNP
 
-              cout << "HP: " << currentHealth // REPLACE 100 WITH USERS HP AND MANA AND
-                                 // HEALTHPOTS
+              cout << "HP: " << currentHealth  // REPLACE 100 WITH USERS HP AND
+                                               // MANA AND HEALTHPOTS
                    << "         Mana: 100"
-                   << "        Health Potions: 0" << endl;
+                   << "        Health Potions: " << tempPotions << endl;
               menuFightNP();
               if (get_userChoice() == 1) {  // Basic Attack
-                // attacks the enemy player ATK
+               // attacks the enemy player ATK
+               damage = AirMonsters.damageRecieved(pAttack);
+                cout << playerName << "\'s basic attack did " << damage << " damage to " << AirMonsters.get_airName() << "!!" <<endl;
+                cout << AirMonsters.get_airName() << " has " << AirMonsters.get_airHealth() << " health" << endl;
+
               } else if (get_userChoice() == 2) {  // Spells
                 // display spells
               }
@@ -106,7 +124,15 @@ class game : menu {
             currentHealth -= AirMonsters.attack(pDefence);
           }
           turn++;
+
+          if (currentHealth <= 0){ // if player dies
+          cout << "You died" << endl;
+
+          } else if (AirMonsters.get_airHealth() <=0){ // if monster dies
+          cout << "Monster Died" << endl;
+          }
         }
+
         // blah blah stuff happens
         // battle Earth Monster
 

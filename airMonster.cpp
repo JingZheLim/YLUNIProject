@@ -15,7 +15,11 @@ airMonster::airMonster() {
   this->atkUp = 5;
 }
 
-int airMonster::damageRecieved(int playersAttack) {}
+int airMonster::damageRecieved(int playersAttack) {
+  int pDamage = playersAttack - mDefence;
+  this->mHealth -= pDamage;
+  return pDamage;
+}
 
 int airMonster::attack(int playersDefence) {
   int currentAttack = mAttack;
@@ -30,3 +34,4 @@ int airMonster::attack(int playersDefence) {
   int airMonster::get_airHealth(){return mHealth;}
   int airMonster::get_airAttack(){return mAttack;}
   int airMonster::get_airDefence(){return mDefence;}
+  string airMonster::get_airName(){return mName;}

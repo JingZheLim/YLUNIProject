@@ -17,6 +17,7 @@ class airMonster : public monster {
   int get_airHealth();
   int get_airAttack();
   int get_airDefence();
+  string get_airName();
 };
 
 #endif
