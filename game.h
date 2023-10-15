@@ -14,6 +14,20 @@
 
 using namespace std;
 
+// note to Yaline
+/* I have implemented the the introduction when the user selects their element,
+ * currently only water will run through the entire game. idk if you want the
+ * make the battle system into a class or keep it like how it is, currently it
+ * is on 850+ lines and if we do it for the other elements this will triple to
+ * over 2,550 lines of code. I have manually tested that each battle works but
+ * not sure how to document it, makefile is there but doesn't do anything at the
+ * moment, you are free to delete or do something about it and test it however
+ * you want it. The battle system works for the local values I have created at
+ * around line 70 make sure to delete and reimplement with your player class. I
+ * have NOT implemented the spells menu and the segways lines between each
+ * fight. Currently the elementalDragon does not work properly will try to fix
+ * tmrw, its using the monsters attacks but not using its own attributes */
+
 class game : menu {
  private:
   int currentHealth;
@@ -25,6 +39,7 @@ class game : menu {
   fireMonster FireMonsters;
   earthMonster EarthMonsters;
   airMonster AirMonsters;
+  elementalDragon ElementalDragon;
 
  public:
   void run() {  // starts the entire game
@@ -59,7 +74,7 @@ class game : menu {
         int tempPotions = 5;  // get rid of these after
         int pDefence = 30;
         int pAttack = 100;
-        currentHealth = 100;
+        currentHealth = 500;
         int mana = 100;
         int spellDmg = 25;
         int damageDealt;
@@ -472,7 +487,8 @@ class game : menu {
         cout << "blah blah stuff happened now to random monster" << endl;
         cout << "--------------------------------------------------" << endl;
 
-        // battle Random Monster (implemented water monster here) (change for random monster)
+        // battle Random Monster (implemented water monster here) (change for
+        // random monster)
         cout << "Press Enter to Continue..." << endl;
         cin.get();  // pauses and waits for user to press enter to continue
         system("clear");
@@ -514,7 +530,8 @@ class game : menu {
                 // display spells (uses mana)
                 // make sure player has enough mana for the spell
                 if (mana >= 20 /*requied mana*/) {  // cast spell
-                  damageDealt = WaterMonsters.damageRecieved(pAttack + spellDmg);
+                  damageDealt =
+                      WaterMonsters.damageRecieved(pAttack + spellDmg);
                   cout << playerName << " casted a spell and did "
                        << damageDealt << " damage to "
                        << WaterMonsters.get_waterName() << "!!" << endl;
@@ -564,7 +581,8 @@ class game : menu {
                 // display spells (uses mana)
                 // make sure player has enough mana for the spell
                 if (mana > 20 /*requied mana*/) {  // cast spell
-                  damageDealt = WaterMonsters.damageRecieved(pAttack + spellDmg);
+                  damageDealt =
+                      WaterMonsters.damageRecieved(pAttack + spellDmg);
                   cout << playerName << " casted a spell and did "
                        << damageDealt << " damage to "
                        << WaterMonsters.get_waterName() << "!!" << endl;
@@ -620,7 +638,7 @@ class game : menu {
         } else {
           turn = 1;  // Monster starts first
         }
-        while (currentHealth > 0 && FireMonsters.get_fireHealth() > 0) {
+        while (currentHealth > 0 && ElementalDragon.get_elementalHealth() > 0) {
           if (turn % 2 == 0) {       // players turn
             if (tempPotions >= 1) {  // if have potion display normal menu
 
@@ -631,12 +649,13 @@ class game : menu {
               menuFight();
               if (get_userChoice() == 1) {  // Basic Attack
                 // attacks the enemy with player ATK
-                damageDealt = FireMonsters.damageRecieved(pAttack);
+                damageDealt = ElementalDragon.damageRecieved(pAttack);
                 cout << playerName << "\'s basic attack did " << damageDealt
-                     << " damage to " << FireMonsters.get_fireName() << "!!"
+                     << " damage to " << ElementalDragon.get_elementalName()
+                     << "!!" << endl;
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
                      << endl;
-                cout << FireMonsters.get_fireName() << " has "
-                     << FireMonsters.get_fireHealth() << " health" << endl;
                 cout << "---------------------------" << endl;
 
                 if (mana < 100) {  // gain mana
@@ -650,12 +669,14 @@ class game : menu {
                 // display spells (uses mana)
                 // make sure player has enough mana for the spell
                 if (mana >= 20 /*requied mana*/) {  // cast spell
-                  damageDealt = FireMonsters.damageRecieved(pAttack + spellDmg);
+                  damageDealt =
+                      ElementalDragon.damageRecieved(pAttack + spellDmg);
                   cout << playerName << " casted a spell and did "
                        << damageDealt << " damage to "
-                       << FireMonsters.get_fireName() << "!!" << endl;
-                  cout << FireMonsters.get_fireName() << " has "
-                       << FireMonsters.get_fireHealth() << " health" << endl;
+                       << ElementalDragon.get_elementalName() << "!!" << endl;
+                  cout << ElementalDragon.get_elementalName() << " has "
+                       << ElementalDragon.get_elementalHealth() << " health"
+                       << endl;
                   cout << "---------------------------" << endl;
                   mana -= 20;
                 } else {  // if not enough
@@ -688,24 +709,27 @@ class game : menu {
               menuFightNP();
               if (get_userChoice() == 1) {  // Basic Attack
                 // attacks the enemy player ATK
-                damageDealt = FireMonsters.damageRecieved(pAttack);
+                damageDealt = ElementalDragon.damageRecieved(pAttack);
                 cout << playerName << "\'s basic attack did " << damageDealt
-                     << " damage to " << FireMonsters.get_fireName() << "!!"
+                     << " damage to " << ElementalDragon.get_elementalName()
+                     << "!!" << endl;
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
                      << endl;
-                cout << FireMonsters.get_fireName() << " has "
-                     << FireMonsters.get_fireHealth() << " health" << endl;
                 cout << "---------------------------" << endl;
 
               } else if (get_userChoice() == 2) {  // Spells
                 // display spells (uses mana)
                 // make sure player has enough mana for the spell
                 if (mana > 20 /*requied mana*/) {  // cast spell
-                  damageDealt = FireMonsters.damageRecieved(pAttack + spellDmg);
+                  damageDealt =
+                      ElementalDragon.damageRecieved(pAttack + spellDmg);
                   cout << playerName << " casted a spell and did "
                        << damageDealt << " damage to "
-                       << FireMonsters.get_fireName() << "!!" << endl;
-                  cout << FireMonsters.get_fireName() << " has "
-                       << FireMonsters.get_fireHealth() << " health" << endl;
+                       << ElementalDragon.get_elementalName() << "!!" << endl;
+                  cout << ElementalDragon.get_elementalName() << " has "
+                       << ElementalDragon.get_elementalHealth() << " health"
+                       << endl;
                   cout << "---------------------------" << endl;
                   mana -= 20;
                 } else {  // if not enough
@@ -718,7 +742,7 @@ class game : menu {
               }
             }
           } else {  // monsters turn
-            currentHealth -= FireMonsters.attack(pDefence);
+            currentHealth -= ElementalDragon.attack(pDefence);
           }
           turn++;
 
@@ -727,13 +751,13 @@ class game : menu {
             cout << "--------------------------------------------------"
                  << endl;
 
-          } else if (FireMonsters.get_fireHealth() <= 0) {  // if monster dies
+          } else if (ElementalDragon.get_elementalHealth() <=
+                     0) {  // if monster dies
             cout << "Monster Died" << endl;
             cout << "--------------------------------------------------"
                  << endl;
           }
         }
-
 
       } else if (get_userChoice() == 2) {  // Earth
         system("clear");

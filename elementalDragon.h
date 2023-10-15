@@ -18,9 +18,12 @@ class elementalDragon : public waterMonster,
 
  public:
   elementalDragon();
-  int calculateDmgDone();
-  int damageRecieved();
-  void attack();
+  int damageRecieved(int playersAttack);
+  int attack(int playersDefence);
+  int get_elementalHealth();
+  int get_elementalAttack();
+  int get_elementalDefence();
+  string get_elementalName();
 };
 
 #endif

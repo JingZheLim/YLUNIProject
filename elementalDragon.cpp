@@ -13,17 +13,38 @@ elementalDragon::elementalDragon(){
     this->dragonName = "Elegon";
 }
 
-int elementalDragon::calculateDmgDone() {
-    return dragonAttack-waterMonster::mDefence;
+int elementalDragon::damageRecieved(int playersAttack) {
+  int pDamage = playersAttack - dragonDefence;
+  if (pDamage < 0) {  // if less than 0, make sure damage = 0 so that it doesn't
+                      // add the damage health instead
+    pDamage = 0;
+  }
+
+  this->dragonHealth -= pDamage;
+  if (this->dragonHealth < 0) {  // if less than 0 reset hp to 0 for output purposes
+    this->dragonHealth = 0;
+  }
+  return pDamage;
 }
-int elementalDragon::damageRecieved() {
-  int currentmHealth = dragonHealth;
-  int damage = waterMonster::calculateDmgDone();
-  this->dragonHealth = currentmHealth - damage;
-  cout << dragonName <<" has " << dragonHealth << " health left."<< endl;
-}
-void elementalDragon::attack() {
-    cout << this->dragonName << " used " << waterMonster::mAtkType << " and did " << calculateDmgDone() << " amounts of damage!!" << endl;
-    
+
+int elementalDragon::attack(int playerDefense) {
+
+  // Pick a random monster to reuse attack from
+  int randMonster = rand() % 4;
+  
+  if (randMonster == 0) {
+    return airMonster::attack(playerDefense); 
+  } else if (randMonster == 1) {
+    return earthMonster::attack(playerDefense);
+  } else if (randMonster == 2) {
+    return fireMonster::attack(playerDefense);
+  } else {
+    return waterMonster::attack(playerDefense);
+  }
 
 }
+
+int elementalDragon::get_elementalHealth() { return dragonHealth; }
+int elementalDragon::get_elementalAttack() { return dragonAttack; }
+int elementalDragon::get_elementalDefence() { return dragonDefence; }
+string elementalDragon::get_elementalName() { return dragonName; }
