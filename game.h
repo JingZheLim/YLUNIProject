@@ -60,7 +60,7 @@ class game : menu {
         int pDefence = 50;
         int pAttack = 50;
         currentHealth = 100;
-        int mana = 00;
+        int mana = 100;
         int spellDmg = 25;
         int damageDealt;
 
@@ -69,8 +69,9 @@ class game : menu {
         // battle Air Monster
         system("clear");
         int turn;
-        randNumber = rand() % 2;
-        cout << randNumber << endl;
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
         if (randNumber % 2 == 0) {
           turn = 0;  // Player starts first
         } else {
@@ -108,17 +109,19 @@ class game : menu {
                 // make sure player has enough mana for the spell
                 if (mana > 20 /*requied mana*/) {  // cast spell
                   damageDealt = AirMonsters.damageRecieved(pAttack + spellDmg);
-                  cout << playerName << " casted a spell and did " << damageDealt
-                       << " damage to " << AirMonsters.get_airName() << "!!"
-                       << endl;
+                  cout << playerName << " casted a spell and did "
+                       << damageDealt << " damage to "
+                       << AirMonsters.get_airName() << "!!" << endl;
                   cout << AirMonsters.get_airName() << " has "
                        << AirMonsters.get_airHealth() << " health" << endl;
                   cout << "---------------------------" << endl;
                   mana -= 20;
                 } else {  // if not enough
-                  cout << "You do not have enough mana to cast this spell!" << endl;
-                  cout << "--------------------------------------------------" << endl;
-                  turn++; // gets turn back
+                  cout << "You do not have enough mana to cast this spell!"
+                       << endl;
+                  cout << "--------------------------------------------------"
+                       << endl;
+                  turn++;  // gets turn back
                 }
 
               } else if (get_userChoice() ==
@@ -132,7 +135,7 @@ class game : menu {
                 if (currentHealth > 100) {
                   currentHealth = 100;
                 }
-                turn++; // gets turn back
+                turn++;  // gets turn back
               }
             } else {  // if doesn't display menuNP
 
@@ -149,9 +152,27 @@ class game : menu {
                      << endl;
                 cout << AirMonsters.get_airName() << " has "
                      << AirMonsters.get_airHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
 
               } else if (get_userChoice() == 2) {  // Spells
-                // display spells
+                // display spells (uses mana)
+                // make sure player has enough mana for the spell
+                if (mana > 20 /*requied mana*/) {  // cast spell
+                  damageDealt = AirMonsters.damageRecieved(pAttack + spellDmg);
+                  cout << playerName << " casted a spell and did "
+                       << damageDealt << " damage to "
+                       << AirMonsters.get_airName() << "!!" << endl;
+                  cout << AirMonsters.get_airName() << " has "
+                       << AirMonsters.get_airHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  mana -= 20;
+                } else {  // if not enough
+                  cout << "You do not have enough mana to cast this spell!"
+                       << endl;
+                  cout << "--------------------------------------------------"
+                       << endl;
+                  turn++;  // gets turn back
+                }
               }
             }
           } else {  // monsters turn
@@ -169,6 +190,7 @@ class game : menu {
 
         // blah blah stuff happens
         // battle Earth Monster
+        
 
         // blah blah stuff happens
         // battle Fire Monster
