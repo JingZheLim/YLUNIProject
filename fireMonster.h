@@ -13,10 +13,12 @@ class fireMonster  : public monster {
 
     public:
     fireMonster();
-    int calculateDmgDone();
-    int damageRecieved();
-    void attack();  
-
+  int damageRecieved(int playersAttack);
+  int attack(int playersDefence);
+  int get_fireHealth();
+  int get_fireAttack();
+  int get_fireDefence();
+  string get_fireName();
 };
 
 #endif
