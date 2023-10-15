@@ -13,18 +13,35 @@ waterMonster::waterMonster() {
   this->mAtkType = "Hydro-Pulse Cannon";
   this->healEffect = 10;
 }
-int waterMonster::calculateDmgDone() { return mAttack - mDefence; }
-int waterMonster::damageRecieved() {
-  int currentmHealth = mHealth;
-  int damage = calculateDmgDone();
-  this->mHealth = currentmHealth - damage;
-  cout << mName << " has " << mHealth << " health left." << endl;
+int waterMonster::damageRecieved(int playersAttack) {
+  int pDamage = playersAttack - mDefence;
+  if (pDamage < 0) {  // if less than 0, make sure damage = 0 so that it doesn't
+                      // add the damage health instead
+    pDamage = 0;
+  }
+
+  this->mHealth -= pDamage;
+  if (this->mHealth < 0) {  // if less than 0 reset hp to 0 for output purposes
+    this->mHealth = 0;
+  }
+  return pDamage;
 }
-void waterMonster::attack() {
-  cout << this->mName << " used " << this->mAtkType << " and did "
-       << calculateDmgDone() << " amounts of damage!!" << endl;
+int waterMonster::attack(int playersDefence) {
+  int currentAttack = mAttack;
+  int damage = currentAttack - playersDefence;
+  if (damage < 0) {  // if less than 0, make sure damage = 0 so that it doesn't
+                     // add the damage to health instead
+    damage = 0;
+  }
+  cout << this->mName << " used " << this->mAtkType << " and did " << damage
+       << " amounts of damage!!" << endl;
+  cout << this->mName << " Healed " << healEffect << " of its HP back"<<endl;
+  cout << "--------------------------------------------------" << endl;
+  this->mHealth += this->healEffect;
+  return damage;
 }
 
-int waterMonster::getHealth(){
-  return mHealth;
-}
+int waterMonster::get_waterHealth() { return mHealth; }
+int waterMonster::get_waterAttack() { return mAttack; }
+int waterMonster::get_waterDefence() { return mDefence; }
+string waterMonster::get_waterName() { return mName; }

@@ -12,10 +12,12 @@ class waterMonster : public monster {
 
  public:
   waterMonster();
-  int calculateDmgDone();
-  int damageRecieved();
-  void attack();
-  int getHealth();
+  int damageRecieved(int playersAttack);
+  int attack(int playersDefence);
+  int get_waterHealth();
+  int get_waterAttack();
+  int get_waterDefence();
+  string get_waterName();
 };
 
 #endif

@@ -78,6 +78,8 @@ class menu {
     cout << "--------------------------------------------------" << endl;
   }
 
+  // spells menu here
+
   int get_userChoice() { return userChoice; };
 };
 

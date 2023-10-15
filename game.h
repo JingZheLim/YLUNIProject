@@ -21,7 +21,7 @@ class game : menu {
   string playerName;
 
   // creating the objects for monsters
-  // waterMonster WaterMonsters;
+  waterMonster WaterMonsters;
   fireMonster FireMonsters;
   earthMonster EarthMonsters;
   airMonster AirMonsters;
@@ -64,7 +64,7 @@ class game : menu {
         int spellDmg = 25;
         int damageDealt;
         cout << "---------------------------" << endl;
-        cout << "blah blah stuff happens" << endl;
+        cout << "blah blah stuff happened now to air monster" << endl;
 
         // battle Air Monster
         cout << "--------------------------------------------------" << endl;
@@ -200,7 +200,7 @@ class game : menu {
         cout << "Press Enter to Continue..." << endl;
         cin.get();
         system("clear");
-        cout << "blah blah stuff happens" << endl;
+        cout << "blah blah stuff happened now to earth monster" << endl;
         cout << "--------------------------------------------------" << endl;
 
         // battle Earth Monster
@@ -336,7 +336,7 @@ class game : menu {
         cout << "Press Enter to Continue..." << endl;
         cin.get();
         system("clear");
-        cout << "blah blah stuff happens" << endl;
+        cout << "blah blah stuff happened now to fire monster" << endl;
         cout << "--------------------------------------------------" << endl;
 
         // battle Fire Monster
@@ -465,11 +465,276 @@ class game : menu {
           }
         }
 
-        // blah blah stuff happens
-        // battle Random? Monster
+        cin.get();
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "blah blah stuff happened now to random monster" << endl;
+        cout << "--------------------------------------------------" << endl;
 
-        // blah blah stuff happens
+        // battle Random Monster (implemented water monster here) (change for random monster)
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+        while (currentHealth > 0 && WaterMonsters.get_waterHealth() > 0) {
+          if (turn % 2 == 0) {       // players turn
+            if (tempPotions >= 1) {  // if have potion display normal menu
+
+              cout << "HP: " << currentHealth  // REPLACE 100 WITH USERS HP AND
+                                               // MANA AND HEALTHPOTS
+                   << "         Mana: " << mana
+                   << "        Health Potions: " << tempPotions << endl;
+              menuFight();
+              if (get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy with player ATK
+                damageDealt = WaterMonsters.damageRecieved(pAttack);
+                cout << playerName << "\'s basic attack did " << damageDealt
+                     << " damage to " << WaterMonsters.get_waterName() << "!!"
+                     << endl;
+                cout << WaterMonsters.get_waterName() << " has "
+                     << WaterMonsters.get_waterHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                if (mana < 100) {  // gain mana
+                  mana += 15;
+                  if (mana > 100) {  // doesn't go above max mana
+                    mana = 100;
+                  }
+                }
+
+              } else if (get_userChoice() == 2) {  // Spells
+                // display spells (uses mana)
+                // make sure player has enough mana for the spell
+                if (mana >= 20 /*requied mana*/) {  // cast spell
+                  damageDealt = WaterMonsters.damageRecieved(pAttack + spellDmg);
+                  cout << playerName << " casted a spell and did "
+                       << damageDealt << " damage to "
+                       << WaterMonsters.get_waterName() << "!!" << endl;
+                  cout << WaterMonsters.get_waterName() << " has "
+                       << WaterMonsters.get_waterHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  mana -= 20;
+                } else {  // if not enough
+                  cout << "You do not have enough mana to cast this spell!"
+                       << endl;
+                  cout << "--------------------------------------------------"
+                       << endl;
+                  turn++;  // gets turn back
+                }
+
+              } else if (get_userChoice() ==
+                         3) {  // Use health potion (heals 50 HP)
+                               // use health potion if have
+                cout << playerName << " used a health potion" << endl;
+                cout << "--------------------------------------------------"
+                     << endl;
+                tempPotions--;
+                currentHealth += 50;
+                if (currentHealth > 100) {
+                  currentHealth = 100;
+                }
+                turn++;  // gets turn back
+              }
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << currentHealth  // REPLACE 100 WITH USERS HP AND
+                                               // MANA AND HEALTHPOTS
+                   << "         Mana: " << mana
+                   << "        Health Potions: " << tempPotions << endl;
+              menuFightNP();
+              if (get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy player ATK
+                damageDealt = WaterMonsters.damageRecieved(pAttack);
+                cout << playerName << "\'s basic attack did " << damageDealt
+                     << " damage to " << WaterMonsters.get_waterName() << "!!"
+                     << endl;
+                cout << WaterMonsters.get_waterName() << " has "
+                     << WaterMonsters.get_waterHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+              } else if (get_userChoice() == 2) {  // Spells
+                // display spells (uses mana)
+                // make sure player has enough mana for the spell
+                if (mana > 20 /*requied mana*/) {  // cast spell
+                  damageDealt = WaterMonsters.damageRecieved(pAttack + spellDmg);
+                  cout << playerName << " casted a spell and did "
+                       << damageDealt << " damage to "
+                       << WaterMonsters.get_waterName() << "!!" << endl;
+                  cout << WaterMonsters.get_waterName() << " has "
+                       << WaterMonsters.get_waterHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  mana -= 20;
+                } else {  // if not enough
+                  cout << "You do not have enough mana to cast this spell!"
+                       << endl;
+                  cout << "--------------------------------------------------"
+                       << endl;
+                  turn++;  // gets turn back
+                }
+              }
+            }
+          } else {  // monsters turn
+            currentHealth -= WaterMonsters.attack(pDefence);
+          }
+          turn++;
+
+          if (currentHealth <= 0) {  // if player dies
+            cout << "You died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+
+          } else if (WaterMonsters.get_waterHealth() <= 0) {  // if monster dies
+            cout << "Monster Died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+          }
+        }
+
+        /*select random monster here*/
+        /*fight random monster code here*/
+
+        cin.get();
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "blah blah stuff happened now to elemental dragon" << endl;
+        cout << "--------------------------------------------------" << endl;
+
         // battle Elemental Dragon
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+        while (currentHealth > 0 && FireMonsters.get_fireHealth() > 0) {
+          if (turn % 2 == 0) {       // players turn
+            if (tempPotions >= 1) {  // if have potion display normal menu
+
+              cout << "HP: " << currentHealth  // REPLACE 100 WITH USERS HP AND
+                                               // MANA AND HEALTHPOTS
+                   << "         Mana: " << mana
+                   << "        Health Potions: " << tempPotions << endl;
+              menuFight();
+              if (get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy with player ATK
+                damageDealt = FireMonsters.damageRecieved(pAttack);
+                cout << playerName << "\'s basic attack did " << damageDealt
+                     << " damage to " << FireMonsters.get_fireName() << "!!"
+                     << endl;
+                cout << FireMonsters.get_fireName() << " has "
+                     << FireMonsters.get_fireHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                if (mana < 100) {  // gain mana
+                  mana += 15;
+                  if (mana > 100) {  // doesn't go above max mana
+                    mana = 100;
+                  }
+                }
+
+              } else if (get_userChoice() == 2) {  // Spells
+                // display spells (uses mana)
+                // make sure player has enough mana for the spell
+                if (mana >= 20 /*requied mana*/) {  // cast spell
+                  damageDealt = FireMonsters.damageRecieved(pAttack + spellDmg);
+                  cout << playerName << " casted a spell and did "
+                       << damageDealt << " damage to "
+                       << FireMonsters.get_fireName() << "!!" << endl;
+                  cout << FireMonsters.get_fireName() << " has "
+                       << FireMonsters.get_fireHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  mana -= 20;
+                } else {  // if not enough
+                  cout << "You do not have enough mana to cast this spell!"
+                       << endl;
+                  cout << "--------------------------------------------------"
+                       << endl;
+                  turn++;  // gets turn back
+                }
+
+              } else if (get_userChoice() ==
+                         3) {  // Use health potion (heals 50 HP)
+                               // use health potion if have
+                cout << playerName << " used a health potion" << endl;
+                cout << "--------------------------------------------------"
+                     << endl;
+                tempPotions--;
+                currentHealth += 50;
+                if (currentHealth > 100) {
+                  currentHealth = 100;
+                }
+                turn++;  // gets turn back
+              }
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << currentHealth  // REPLACE 100 WITH USERS HP AND
+                                               // MANA AND HEALTHPOTS
+                   << "         Mana: " << mana
+                   << "        Health Potions: " << tempPotions << endl;
+              menuFightNP();
+              if (get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy player ATK
+                damageDealt = FireMonsters.damageRecieved(pAttack);
+                cout << playerName << "\'s basic attack did " << damageDealt
+                     << " damage to " << FireMonsters.get_fireName() << "!!"
+                     << endl;
+                cout << FireMonsters.get_fireName() << " has "
+                     << FireMonsters.get_fireHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+              } else if (get_userChoice() == 2) {  // Spells
+                // display spells (uses mana)
+                // make sure player has enough mana for the spell
+                if (mana > 20 /*requied mana*/) {  // cast spell
+                  damageDealt = FireMonsters.damageRecieved(pAttack + spellDmg);
+                  cout << playerName << " casted a spell and did "
+                       << damageDealt << " damage to "
+                       << FireMonsters.get_fireName() << "!!" << endl;
+                  cout << FireMonsters.get_fireName() << " has "
+                       << FireMonsters.get_fireHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  mana -= 20;
+                } else {  // if not enough
+                  cout << "You do not have enough mana to cast this spell!"
+                       << endl;
+                  cout << "--------------------------------------------------"
+                       << endl;
+                  turn++;  // gets turn back
+                }
+              }
+            }
+          } else {  // monsters turn
+            currentHealth -= FireMonsters.attack(pDefence);
+          }
+          turn++;
+
+          if (currentHealth <= 0) {  // if player dies
+            cout << "You died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+
+          } else if (FireMonsters.get_fireHealth() <= 0) {  // if monster dies
+            cout << "Monster Died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+          }
+        }
+
+
       } else if (get_userChoice() == 2) {  // Earth
         system("clear");
         cout << "                      GAME START                     " << endl;
