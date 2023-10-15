@@ -26,7 +26,7 @@ int airMonster::attack(int playersDefence) {
   int damage = currentAttack - playersDefence;
         cout << this->mName << " used " << this->mAtkType << " and did " << damage << " amounts of damage!!" << endl;
         cout << this->mName << "\'s Attack rose by " << atkUp << endl;
-        cout << "-----------------------------------------------------" << endl;
+        cout << "--------------------------------------------------" << endl;
         this->mAttack += this->atkUp;
         return damage;
 }
