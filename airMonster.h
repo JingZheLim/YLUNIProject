@@ -3,8 +3,8 @@
 #include <string>
 using namespace std;
 #include <iostream>
-#include "monster.h"
 
+#include "monster.h"
 
 class airMonster : public monster {
  protected:

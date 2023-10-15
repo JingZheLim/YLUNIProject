@@ -22,8 +22,8 @@ class game : menu {
 
   // creating the objects for monsters
   /*waterMonster WaterMonsters;
-  earthMonster EarthMonsters;
   fireMonster fireMonsters;*/
+  earthMonster EarthMonsters;
   airMonster AirMonsters;
 
  public:
@@ -39,7 +39,7 @@ class game : menu {
       if (get_userChoice() == 1) {  // Water (creates the object)
         system("clear");
         cout << "                      GAME START                     " << endl;
-        cout << "-----------------------------------------------------" << endl;
+        cout << "--------------------------------------------------" << endl;
         cout << "The water kingdom is going through a drought because of the "
                 "increasing temperatures."
              << endl;
@@ -51,22 +51,26 @@ class game : menu {
                 "plaguing your kingdom."
              << endl;
         cout << "You are a brave water mage." << endl;
-        cout << "-----------------------------------------------------" << endl;
+        cout << "--------------------------------------------------" << endl;
         cout << "What is your name brave mage?" << endl;
         cout << "My name is: ";
         cin >> playerName;  // inputs users name
 
         int tempPotions = 2;  // get rid of these after
-        int pDefence = 50;
-        int pAttack = 50;
+        int pDefence = 30;
+        int pAttack = 100;
         currentHealth = 100;
         int mana = 100;
         int spellDmg = 25;
         int damageDealt;
-
-        // blah blah stuff happens
+        cout << "---------------------------" << endl;
+        cout << "blah blah stuff happens" << endl;
 
         // battle Air Monster
+        cout << "--------------------------------------------------" << endl;
+        cin.get();
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
         system("clear");
         int turn;
         randNumber = rand() % 50;
@@ -107,7 +111,7 @@ class game : menu {
               } else if (get_userChoice() == 2) {  // Spells
                 // display spells (uses mana)
                 // make sure player has enough mana for the spell
-                if (mana > 20 /*requied mana*/) {  // cast spell
+                if (mana >= 20 /*requied mana*/) {  // cast spell
                   damageDealt = AirMonsters.damageRecieved(pAttack + spellDmg);
                   cout << playerName << " casted a spell and did "
                        << damageDealt << " damage to "
@@ -182,15 +186,149 @@ class game : menu {
 
           if (currentHealth <= 0) {  // if player dies
             cout << "You died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
 
           } else if (AirMonsters.get_airHealth() <= 0) {  // if monster dies
             cout << "Monster Died" << endl;
           }
         }
+        cout << "--------------------------------------------------" << endl;
+        cin.get();
+        cout << "Press Enter to Continue..."<< endl;
+        cin.get();
+        system("clear");
+        cout << "blah blah stuff happens" << endl;
+        cout << "--------------------------------------------------" << endl;
 
-        // blah blah stuff happens
         // battle Earth Monster
-        
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+
+        while (currentHealth > 0 && EarthMonsters.get_earthHealth() > 0) {
+          if (turn % 2 == 0) {       // players turn
+            if (tempPotions >= 1) {  // if have potion display normal menu
+
+              cout << "HP: " << currentHealth  // REPLACE 100 WITH USERS HP AND
+                                               // MANA AND HEALTHPOTS
+                   << "         Mana: " << mana
+                   << "        Health Potions: " << tempPotions << endl;
+              menuFight();
+              if (get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy with player ATK
+                damageDealt = EarthMonsters.damageRecieved(pAttack);
+                cout << playerName << "\'s basic attack did " << damageDealt
+                     << " damage to " << EarthMonsters.get_earthName() << "!!"
+                     << endl;
+                cout << EarthMonsters.get_earthName() << " has "
+                     << EarthMonsters.get_earthHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                if (mana < 100) {  // gain mana
+                  mana += 15;
+                  if (mana > 100) {  // doesn't go above max mana
+                    mana = 100;
+                  }
+                }
+
+              } else if (get_userChoice() == 2) {  // Spells
+                // display spells (uses mana)
+                // make sure player has enough mana for the spell
+                if (mana >= 20 /*requied mana*/) {  // cast spell
+                  damageDealt =
+                      EarthMonsters.damageRecieved(pAttack + spellDmg);
+                  cout << playerName << " casted a spell and did "
+                       << damageDealt << " damage to "
+                       << EarthMonsters.get_earthName() << "!!" << endl;
+                  cout << EarthMonsters.get_earthName() << " has "
+                       << EarthMonsters.get_earthHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  mana -= 20;
+                } else {  // if not enough
+                  cout << "You do not have enough mana to cast this spell!"
+                       << endl;
+                  cout << "--------------------------------------------------"
+                       << endl;
+                  turn++;  // gets turn back
+                }
+
+              } else if (get_userChoice() ==
+                         3) {  // Use health potion (heals 50 HP)
+                               // use health potion if have
+                cout << playerName << " used a health potion" << endl;
+                cout << "--------------------------------------------------"
+                     << endl;
+                tempPotions--;
+                currentHealth += 50;
+                if (currentHealth > 100) {
+                  currentHealth = 100;
+                }
+                turn++;  // gets turn back
+              }
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << currentHealth  // REPLACE 100 WITH USERS HP AND
+                                               // MANA AND HEALTHPOTS
+                   << "         Mana: " << mana
+                   << "        Health Potions: " << tempPotions << endl;
+              menuFightNP();
+              if (get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy player ATK
+                damageDealt = EarthMonsters.damageRecieved(pAttack);
+                cout << playerName << "\'s basic attack did " << damageDealt
+                     << " damage to " << EarthMonsters.get_earthName() << "!!"
+                     << endl;
+                cout << EarthMonsters.get_earthName() << " has "
+                     << EarthMonsters.get_earthHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+              } else if (get_userChoice() == 2) {  // Spells
+                // display spells (uses mana)
+                // make sure player has enough mana for the spell
+                if (mana > 20 /*requied mana*/) {  // cast spell
+                  damageDealt =
+                      EarthMonsters.damageRecieved(pAttack + spellDmg);
+                  cout << playerName << " casted a spell and did "
+                       << damageDealt << " damage to "
+                       << EarthMonsters.get_earthName() << "!!" << endl;
+                  cout << EarthMonsters.get_earthName() << " has "
+                       << EarthMonsters.get_earthHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  mana -= 20;
+                } else {  // if not enough
+                  cout << "You do not have enough mana to cast this spell!"
+                       << endl;
+                  cout << "--------------------------------------------------"
+                       << endl;
+                  turn++;  // gets turn back
+                }
+              }
+            }
+          } else {  // monsters turn
+            currentHealth -= EarthMonsters.attack(pDefence);
+          }
+          turn++;
+
+          if (currentHealth <= 0) {  // if player dies
+            cout << "You died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+
+          } else if (EarthMonsters.get_earthHealth() <= 0) {  // if monster dies
+            cout << "Monster Died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+          }
+        }
 
         // blah blah stuff happens
         // battle Fire Monster
