@@ -5,35 +5,39 @@
 #include "Spell.h"
 
 AirPlayer::AirPlayer() {
-  health = 500;
-  attack = 300;
-  defense = 200;
+  health = 250;
+  attack = 130;
+  defense = 30;
   playerSpells = new Spell*[numSpells];
   currentSpells = 2;
-  playerSpells[0] = new Spell("Tornado", 300);      // Attack spell
-  playerSpells[1] = new Spell(200, "Wind Shield");  // Defense spell
-  healthPotion = 3;
+  playerSpells[0] = new Spell("Tornado", 50);      // Attack spell
+  playerSpells[1] = new Spell(50, "Wind Shield");  // Defense spell
+  healthPotion = 5;
 }
 
 int AirPlayer::useWindSlash(int monsterDefense) {
   int damage = 0;
   damage = windSlash - monsterDefense;
-  cout << this->getPlayerName() << " used wind slash dealing 100 damage!!"
-       << endl;
+  cout << this->getPlayerName() << " used wind slash dealing " << damage
+       << " damage!!" << endl;
   cout << "--------------------------------------------------" << endl;
   return damage;
 }
 
 // Virtual function, effectives of potion depends on class
 int AirPlayer::drinkPotion() {
-  if (this->health <= 350) {
-    this->health += 150;
-    cout << this->getPlayerName() << " healed up by 150hp using the potion!!"
+  this->health += 100;
+  if (this->health <= 250) {
+    cout << this->getPlayerName() << " healed up by 100 HP using the potion!!"
          << endl;
-    return health;
     cout << "--------------------------------------------------" << endl;
+    return this->health;
+
   } else {
-    this->health += 500;
-    return health;
+    this->health = 250;
+    cout << this->getPlayerName() << " healed up to full using the potion!!"
+         << endl;
+    cout << "--------------------------------------------------" << endl;
+    return this->health;
   }
 }

@@ -5,14 +5,14 @@
 #include "Spell.h"
 
 WaterPlayer::WaterPlayer() {
-  health = 700;
-  attack = 200;
-  defense = 100;
+  health = 500;
+  attack = 125;
+  defense = 20;
   playerSpells = new Spell*[numSpells];
   currentSpells = 2;
-  playerSpells[0] = new Spell("Water Blast", 300);    // Attack spell
-  playerSpells[1] = new Spell(200, "Water Barrier");  // Defense spell
-  healthPotion = 3;
+  playerSpells[0] = new Spell("Water Blast", 75);    // Attack spell
+  playerSpells[1] = new Spell(25, "Water Barrier");  // Defense spell
+  healthPotion = 5;
 }
 
 int WaterPlayer::useWaterFlood(int monsterDefense) {
@@ -26,14 +26,18 @@ int WaterPlayer::useWaterFlood(int monsterDefense) {
 
 // Virtual function, effectives of potion depends on class
 int WaterPlayer::drinkPotion() {
-  if (this->health <= 550) {
-    this->health += 150;
-    cout << this->getPlayerName() << " healed up by 150hp using the potion!!"
+  this->health += 150;
+  if (this->health <= 500) {
+    cout << this->getPlayerName() << " healed up by 150 HP using the potion!!"
          << endl;
-    return health;
     cout << "--------------------------------------------------" << endl;
+    return this->health;
+
   } else {
-    this->health = 700;
-    return health;
+    this->health = 500;
+    cout << this->getPlayerName() << " healed up to full using the potion!!"
+         << endl;
+    cout << "--------------------------------------------------" << endl;
+    return this->health;
   }
 }

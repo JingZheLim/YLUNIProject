@@ -4,7 +4,7 @@
 
 class FirePlayer : public Player {
  private:
-  int fireStrike = 100;  // Extra fire attack
+  int fireStrike = 150;  // Extra fire attack
 
  public:
   // default constructor:

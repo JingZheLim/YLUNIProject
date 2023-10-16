@@ -6,20 +6,20 @@
 
 FirePlayer::FirePlayer() {
   health = 250;
-  attack = 100;
-  defense = 35;
+  attack = 150;
+  defense = 15;
   playerSpells = new Spell*[numSpells];
   currentSpells = 2;
   playerSpells[0] = new Spell("Fire Balls", 50);    // Attack spell
   playerSpells[1] = new Spell(50, "Fire Fortify");  // Defense spell
-  healthPotion = 3;
+  healthPotion = 5;
 }
 
 int FirePlayer::useFireStrike(int monsterDefense) {
   int damage = 0;
   damage = fireStrike - monsterDefense;
-  cout << this->getPlayerName() << " used fire strike dealing 100 damage!!"
-       << endl;
+  cout << this->getPlayerName() << " used fire strike dealing " << damage
+       << " damage!!" << endl;
   cout << "--------------------------------------------------" << endl;
   return damage;
 }

@@ -8,7 +8,7 @@ using namespace std;
 
 earthMonster::earthMonster() {
   this->mHealth = 150;
-  this->mAttack = 35;
+  this->mAttack = 40;
   this->mDefence = 65;
   this->mName = "Rowan";
   this->mAtkType = "Meteor Strike";

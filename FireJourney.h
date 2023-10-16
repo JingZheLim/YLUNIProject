@@ -502,7 +502,7 @@ class FireJourney {
     }
 
     while (player.getHealth() > 0 && FireMonsters.get_fireHealth() > 0) {
-       if (turn % 2 == 0) {  // players turn
+      if (turn % 2 == 0) {  // players turn
         player.setDefense(ogDef);
         if (player.getHealthPotion() >=
             1) {  // if have potion display normal menu
@@ -628,6 +628,9 @@ class FireJourney {
     system("clear");
     cout << "Now you have achieved the final stage!" << endl;
     cout << "You will battle the ELEMENTAL DRAGON!!" << endl;
+    cout << "It can transform into previously fought ELEMENTAL MONSTERS!"
+         << endl;
+    cout << "AND USE THEIR ATTACKS!!" << endl;
     cout << "Goodluck...you will need it" << endl;
     cout << "--------------------------------------------------" << endl;
 
@@ -642,24 +645,24 @@ class FireJourney {
     } else {
       turn = 1;  // Monster starts first
     }
-    while (currentHealth > 0 && ElementalDragon.get_elementalHealth() > 0) {
+    while (player.getHealth() > 0 &&
+           ElementalDragon.get_elementalHealth() > 0) {
       if (turn % 2 == 0) {  // players turn
+        player.setDefense(ogDef);
         if (player.getHealthPotion() >=
             1) {  // if have potion display normal menu
 
           cout << "HP: " << player.getHealth()
 
-               << "        Health Potions: " << player.getHealthPotion()
-               << endl;
+               << "                           Health Potions: "
+               << player.getHealthPotion() << endl;
           // Calls special menu with additional ability
           Menu.menuFightSpecial();
 
           if (Menu.get_userChoice() == 1) {  // Basic Attack
             // attacks the enemy with player ATK
-            damageDealt =
-                ElementalDragon.damageRecieved(player.calculateDmgDone(100));
-            cout << playerName << "\'s basic attack did " << damageDealt
-                 << endl;
+            damageDealt = ElementalDragon.damageRecieved(
+                player.calculateDmgDone(ElementalDragon.get_airDefence()));
             cout << ElementalDragon.get_elementalName() << " has "
                  << ElementalDragon.get_elementalHealth() << " health" << endl;
             cout << "---------------------------" << endl;
@@ -683,19 +686,18 @@ class FireJourney {
               cout << "---------------------------" << endl;
               // Defense Spell
             } else if (Menu.get_userChoice() == 2) {
+              int tempDef = 0;
+              tempDef = player.getFireDefSpell() + player.getDefense();
+              player.setDefense(tempDef);
               cout << player.getPlayerName() << " casted a defense spell! "
-                   << endl;
-              int tempHealth = 0;
-              tempHealth = player.getFireDefSpell() + player.getHealth();
-              player.setHealth(tempHealth);
+                   << "and increased defense to " << tempDef << endl;
               cout << "---------------------------" << endl;
             }
 
             // For Health potion
-          } else if (Menu.get_userChoice() == 3) {
-            cout << player.getPlayerName() << " used a health potion" << endl;
-            cout << "--------------------------------------------------"
-                 << endl;
+          } else if (Menu.get_userChoice() ==
+                     3) {  // Use health potion (heals 100 HP)
+                           // use health potion if have
             // Decreases health potion by 1
             player.setHealthPotion(player.getHealthPotion() - 1);
             player.drinkPotion();
@@ -705,7 +707,8 @@ class FireJourney {
                  << " used special ability FIRE STRIKE!" << endl;
 
             damageDealt = ElementalDragon.damageRecieved(
-                player.getAttack() + player.useFireStrike(100));
+                player.getAttack() +
+                player.useFireStrike(ElementalDragon.get_airDefence()));
             cout << ElementalDragon.get_elementalName() << " has "
                  << ElementalDragon.get_elementalHealth() << " health" << endl;
             cout << "---------------------------" << endl;
@@ -715,18 +718,16 @@ class FireJourney {
 
           cout << "HP: " << player.getHealth()
 
-               << "        Health Potions: " << player.getHealthPotion()
-               << endl;
+               << "                           Health Potions: "
+               << player.getHealthPotion() << endl;
 
           // Menu with no potion and special abilitiy
           Menu.menuFightNPS();
 
           if (Menu.get_userChoice() == 1) {  // Basic Attack
             // attacks the enemy with player ATK
-            damageDealt =
-                ElementalDragon.damageRecieved(player.calculateDmgDone(100));
-            cout << playerName << "\'s basic attack did " << damageDealt
-                 << endl;
+            damageDealt = ElementalDragon.damageRecieved(
+                player.calculateDmgDone(ElementalDragon.get_airDefence()));
             cout << ElementalDragon.get_elementalName() << " has "
                  << ElementalDragon.get_elementalHealth() << " health" << endl;
             cout << "---------------------------" << endl;
@@ -749,11 +750,11 @@ class FireJourney {
               cout << "---------------------------" << endl;
               // Defense Spell
             } else if (Menu.get_userChoice() == 2) {
+              int tempDef = 0;
+              tempDef = player.getFireDefSpell() + player.getDefense();
+              player.setDefense(tempDef);
               cout << player.getPlayerName() << " casted a defense spell! "
-                   << endl;
-              int tempHealth = 0;
-              tempHealth = player.getFireDefSpell() + player.getHealth();
-              player.setHealth(tempHealth);
+                   << "and increased defense to " << tempDef << endl;
               cout << "---------------------------" << endl;
             }
 
@@ -763,22 +764,25 @@ class FireJourney {
                  << " used special ability FIRE STRIKE!" << endl;
 
             damageDealt = ElementalDragon.damageRecieved(
-                player.getAttack() + player.useFireStrike(100));
+                player.getAttack() +
+                player.useFireStrike(ElementalDragon.get_airDefence()));
             cout << ElementalDragon.get_elementalName() << " has "
                  << ElementalDragon.get_elementalHealth() << " health" << endl;
             cout << "---------------------------" << endl;
           }
         }
       } else {  // monsters turn
-        currentHealth = player.calculateDmgRecieved(
-            ElementalDragon.attack(player.getDefense()));
+
+        currentHealth -= ElementalDragon.attack(player.getDefense());
         player.setHealth(currentHealth);
+        cout << "Elegon returned to its Dragon Form" << endl;
       }
       turn++;
 
       if (player.getHealth() <= 0) {  // if player dies
         cout << "You died" << endl;
         cout << "--------------------------------------------------" << endl;
+        return;
 
       } else if (ElementalDragon.get_elementalHealth() <=
                  0) {  // if monster dies
