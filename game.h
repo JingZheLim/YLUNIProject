@@ -22,7 +22,7 @@ class game : menu {
 
  public:
   void run() {  // starts the entire game
-
+  menuStart();
     if (get_userChoice() == 1) {  // if 1 start the game
       system("clear");            // clears terminal
 
