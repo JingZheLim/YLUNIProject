@@ -10,6 +10,7 @@ EarthPlayer::EarthPlayer(){
     currentSpells = 2; 
     playerSpells[0] = new Spell("Earthquake", 400); // Attack spell
     playerSpells[1] = new Spell(300, "Grass Mountain"); // Defense spell
+    healthPotion = 3;
 }
 
 int EarthPlayer::useGroundShake(int monsterDefense){
