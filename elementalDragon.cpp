@@ -13,18 +13,20 @@ elementalDragon::elementalDragon(){
     this->dragonName = "Elegon";
 }
 
+// Calculates the damage done to the dragon 
 int elementalDragon::damageRecieved(int playersAttack) {
-  int pDamage = playersAttack - dragonDefence;
+  int pDamage = 0; 
+  pDamage = playersAttack - dragonDefence;
   if (pDamage < 0) {  // if less than 0, make sure damage = 0 so that it doesn't
                       // add the damage health instead
     pDamage = 0;
   }
 
-  this->dragonHealth -= pDamage;
+  this->dragonHealth = dragonHealth - pDamage;
   if (this->dragonHealth < 0) {  // if less than 0 reset hp to 0 for output purposes
     this->dragonHealth = 0;
   }
-  return pDamage;
+  return pDamage; // Returns player's damage 
 }
 
 int elementalDragon::attack(int playerDefense) {

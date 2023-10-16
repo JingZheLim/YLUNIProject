@@ -11,10 +11,10 @@ class elementalDragon : public waterMonster,
                         public earthMonster,
                         public airMonster {
  private:
-  int dragonHealth;
-  int dragonAttack;
-  int dragonDefence;
-  string dragonName;
+  int dragonHealth = 0;
+  int dragonAttack = 0;
+  int dragonDefence = 0;
+  string dragonName = "";
 
  public:
   elementalDragon();

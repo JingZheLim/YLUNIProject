@@ -72,9 +72,11 @@ void Player::addSpell(Spell** playerSpells){
 
 // Calculates base attack 
 int Player::calculateDmgDone(int monsterDefense){
-    int damage = 0;
-    damage = attack - monsterDefense; 
-    cout << this->playerName << " used basic attack and did " << damage << " amounts of damage!!" << endl;
+    int damage = 0; // To store base attack damage
+    int damage2 = 0; // To store display damage 
+    damage = attack;
+    damage2 = attack - monsterDefense; 
+    cout << this->playerName << " used basic attack and did " << damage2 << " amounts of damage!!" << endl;
     cout << "--------------------------------------------------" << endl;
     return damage; 
 }
