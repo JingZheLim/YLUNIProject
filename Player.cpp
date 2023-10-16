@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-using namespace std
+using namespace std;
 
 Player::Player(){
     playerName = "";
@@ -86,7 +86,7 @@ int Player::calculateDmgRecieved(int monstersAttack){
     return damageRecieved; 
 }
 
-
+/*
 int Player::castSpell(int spellNum, int monsterDefense){
     for(int i = 0; i < currentSpells; i++){
         if(spellNum == i){
@@ -94,28 +94,27 @@ int Player::castSpell(int spellNum, int monsterDefense){
             if (i % 2 == 0){
                 int spellDamage = 0;
                 spellDamage = playerSpells[i]->getSpellAttack() - monsterDefense; 
-                return spellDamage; 
+                return spellDamage;
+                break; 
             }else if (i % 2 != 0){
                 health = health + playerSpells[i]->getSpellDefense(); 
-                return health; 
+                return health;
+                break; 
             }
 
         }
     }
     cout << "--------------------------------------------------" << endl;
 }
+*/
 
 int Player::drinkPotion(){
-    health += 30;
-    cout << "Player healed up by 30hp!!" << endl; 
+    health += 100;
+    cout << "Player healed up by 100hp!!" << endl; 
     return health;
     cout << "--------------------------------------------------" << endl;
 }
 
-// Virtual function
-void Player::basicAttack(){
-    cout << " " << endl; 
-}
 
 
 

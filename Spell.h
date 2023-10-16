@@ -21,7 +21,7 @@ int getSpellDefense();
 
 // Constructors 
 Spell(string spellName, int spellAttack); 
-Spell(string spellName, int spellDefense); 
+Spell(int spellDefense, string spellName); 
 
 };
 #endif 

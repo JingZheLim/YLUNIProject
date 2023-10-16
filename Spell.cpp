@@ -1,11 +1,16 @@
 #include "Spell.h"
+#include <string>
+
+using namespace std;
 
 Spell::Spell(string spellName, int spellAttack){
-    // Create a spell object 
+    this->spellName = spellName;
+    this->spellAttack = spellAttack;
 }
 
-Spell::Spell(string spellName, int spellDefense){
-
+Spell::Spell(int spellDefense, string spellName){
+    this->spellName = spellName;
+    this->spellDefense = spellDefense;
 }
 
 string Spell::getSpellName(){

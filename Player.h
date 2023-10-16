@@ -1,7 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <string>
-
 #include "Spell.h"
 
 using namespace std;
@@ -13,7 +12,7 @@ class Player {
   int attack;         // base attack (set according to player type)
   int defense;        // base defense (set according to player type)
 
-  int healthPotion;  // player can have multiple potions, heals 30 hp 
+  int healthPotion = 3;  // player can have multiple potions
 
   int currentSpells; // Keep count of current spells
   int numSpells = 8; // To keep count of number of spells 

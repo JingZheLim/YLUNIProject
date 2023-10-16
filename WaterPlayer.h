@@ -5,17 +5,17 @@
 class WaterPlayer: public Player {
 
     private:
-    int waterFlood = 20; // Extra water attack
+    int waterFlood = 100; // Extra water attack
 
     public: 
     // default constructor: 
     WaterPlayer(); 
 
     // Extra water class attack (Not a spell)
-    int waterFlood(int monsterDefense); 
+    int useWaterFlood(int monsterDefense); 
 
     // basic attack; 
-    virtual void basicAttack();
+    virtual int drinkPotion();
 
 };
 #endif 
