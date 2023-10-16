@@ -21,11 +21,9 @@ using namespace std;
 class game : menu {
 
  public:
- // starts the entire game
-  void run() {  
+  void run() {  // starts the entire game
 
-    // If user selects 1, then the game will start 
-    if (get_userChoice() == 1) {  
+    if (get_userChoice() == 1) {  // if 1 start the game
       system("clear");            // clears terminal
 
       menuElement();

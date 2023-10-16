@@ -38,7 +38,6 @@ class FireJourney{
 
  public:
   void run2() {  // starts the entire game
-
         system("clear");
         cout << "                      GAME START                     " << endl;
         cout << "--------------------------------------------------" << endl;
@@ -60,7 +59,8 @@ class FireJourney{
 
         cout << "You encounter your first monster!!" << endl;
         cout << "It looks like an air monster! GET READY!!" << endl; 
-
+        currentHealth = player.getHealth();
+        cout << "HP: " << currentHealth << endl;
         // battle Air Monster
         cout << "--------------------------------------------------" << endl;
         cin.get();
@@ -78,7 +78,7 @@ class FireJourney{
           turn = 1;  // Monster starts first
         }
 
-        while (player.getHealth() > 0 && AirMonsters.get_airHealth() > 0) {
+        while (currentHealth > 0 && AirMonsters.get_airHealth() > 0) {
           if (turn % 2 == 0) {       // players turn
             if (player.getHealthPotion() >= 1) {  // if have potion display normal menu
 
@@ -92,7 +92,7 @@ class FireJourney{
             // Basic Attack
               if (Menu.get_userChoice() == 1) { 
                 // attacks the enemy with player ATK
-                damageDealt = AirMonsters.damageRecieved(player.calculateDmgDone(50));
+                damageDealt = AirMonsters.damageRecieved(player.calculateDmgDone(AirMonsters.get_airDefence()));
                 cout << AirMonsters.get_airName() << " has "
                      << AirMonsters.get_airHealth() << " health" << endl;
                 cout << "---------------------------" << endl;
@@ -140,7 +140,7 @@ class FireJourney{
               Menu.menuFightNP();
               if (Menu.get_userChoice() == 1) {  // Basic Attack
                 // attacks the enemy player ATK
-                damageDealt = AirMonsters.damageRecieved(player.calculateDmgDone(50));
+                damageDealt = AirMonsters.damageRecieved(player.calculateDmgDone(AirMonsters.get_airDefence()));
                 cout << AirMonsters.get_airName() << " has "
                      << AirMonsters.get_airHealth() << " health" << endl;
                 cout << "---------------------------" << endl;
