@@ -48,7 +48,7 @@ class Player {
   int calculateDmgDone(int monsterDefense);  // Returns damage that is done by player
   int calculateDmgRecieved(int monstersAttack); // Returns damage that is done to player 
 
-  int castSpell(int spellNum, int monsterDefense);    // Casts the spell
+  //int castSpell(int spellNum, int monsterDefense);    // Casts the spell
 
   virtual int drinkPotion();  // Uses potion, effectiveness depends on class
 

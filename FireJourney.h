@@ -16,13 +16,14 @@
 
 using namespace std;
 
-class FireJourney : menu {
+class FireJourney{
  private:
  // Randomizer 
   int randNumber;
   string playerName; 
   int damageDealt; 
   int currentHealth;
+  menu Menu; 
 
   // creating the objects for monsters
   waterMonster WaterMonsters;
@@ -38,14 +39,6 @@ class FireJourney : menu {
  public:
   void run2() {  // starts the entire game
 
-    // when run the menu will first be displayed
-    // types number in terminal
-
-    if (get_userChoice() == 1) {  // if 1 start the game
-      system("clear");            // clears terminal
-      menuElement();
-      // move into different storylines for the different elements
-      if (get_userChoice() == 1) {  // Water (creates the object)
         system("clear");
         cout << "                      GAME START                     " << endl;
         cout << "--------------------------------------------------" << endl;
@@ -55,9 +48,7 @@ class FireJourney : menu {
         cout << "The almighty dragon will give power to your kingdom through"
                 "its multitude of elemental spells!"
              << endl;
-        cout << "You must defeat the dragon give your kingdom the power it"
-                "craves!"
-             << endl;
+        cout << "You must defeat the dragon give your kingdom the power it craves!" << endl;
         cout << "You are a mighty fire warrior" << endl;
         cout << "--------------------------------------------------" << endl;
         cout << "What is your name mighty warrior?" << endl;
@@ -96,10 +87,10 @@ class FireJourney : menu {
                    << "        Health Potions: " << player.getHealthPotion() << endl;
 
              // Calls the fight function from menu
-              menuFight();
+              Menu.menuFight();
 
             // Basic Attack
-              if (get_userChoice() == 1) { 
+              if (Menu.get_userChoice() == 1) { 
                 // attacks the enemy with player ATK
                 damageDealt = AirMonsters.damageRecieved(player.calculateDmgDone(50));
                 cout << AirMonsters.get_airName() << " has "
@@ -107,12 +98,12 @@ class FireJourney : menu {
                 cout << "---------------------------" << endl;
 
             // Spells
-              } else if (get_userChoice() == 2) {  // 
+              } else if (Menu.get_userChoice() == 2) {  // 
                 // display spells 
-                menuSpell();
+                Menu.menuSpell();
                     
                     // Attack Spell 
-                    if (get_userChoice() == 1){
+                    if (Menu.get_userChoice() == 1){
                         damageDealt = AirMonsters.damageRecieved(player.getAttack() + player.getFireAtkSpell());
                         cout << player.getPlayerName() << " casted an attack spell and did "
                              << damageDealt << " damage to "
@@ -121,7 +112,7 @@ class FireJourney : menu {
                              << AirMonsters.get_airHealth() << " health" << endl;
                         cout << "---------------------------" << endl;
                     // Defense Spell
-                    }else if (get_userChoice() == 2){
+                    }else if (Menu.get_userChoice() == 2){
                         cout << player.getPlayerName() << " casted a defense spell! " << endl;
                         int tempHealth = 0;
                         tempHealth = player.getFireDefSpell() + player.getHealth(); 
@@ -130,7 +121,7 @@ class FireJourney : menu {
                         }
 
             // For Healthpotion
-              } else if (get_userChoice() ==
+              } else if (Menu.get_userChoice() ==
                          3) {  // Use health potion (heals 50 HP)
                                // use health potion if have
                 cout << playerName << " used a health potion" << endl;
@@ -146,20 +137,20 @@ class FireJourney : menu {
               cout << "HP: " << player.getHealth() 
                                                
                    << "        Health Potions: " << player.getHealthPotion() << endl;
-              menuFightNP();
-              if (get_userChoice() == 1) {  // Basic Attack
+              Menu.menuFightNP();
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
                 // attacks the enemy player ATK
                 damageDealt = AirMonsters.damageRecieved(player.calculateDmgDone(50));
                 cout << AirMonsters.get_airName() << " has "
                      << AirMonsters.get_airHealth() << " health" << endl;
                 cout << "---------------------------" << endl;
 
-              } else if (get_userChoice() == 2) {  // Spells
+              } else if (Menu.get_userChoice() == 2) {  // Spells
                 // display spells 
-                menuSpell();
+                Menu.menuSpell();
                     
                     // Attack Spell 
-                    if (get_userChoice() == 1){
+                    if (Menu.get_userChoice() == 1){
                         damageDealt = AirMonsters.damageRecieved(player.getAttack() + player.getFireAtkSpell());
                         cout << player.getPlayerName() << " casted an attack spell and did "
                              << damageDealt << " damage to "
@@ -168,7 +159,7 @@ class FireJourney : menu {
                              << AirMonsters.get_airHealth() << " health" << endl;
                         cout << "---------------------------" << endl;
                     // Defense Spell
-                    }else if (get_userChoice() == 2){
+                    }else if (Menu.get_userChoice() == 2){
                         cout << player.getPlayerName() << " casted a defense spell! " << endl;
                         int tempHealth = 0;
                         tempHealth = player.getFireDefSpell() + player.getHealth(); 
@@ -225,10 +216,10 @@ class FireJourney : menu {
                    << "        Health Potions: " << player.getHealthPotion() << endl;
 
             // Calls the fight function from menu
-              menuFight();
+              Menu.menuFight();
 
               // Basic Attack 
-              if (get_userChoice() == 1) {  // Basic Attack
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
                 // attacks the enemy with player ATK
                 damageDealt = EarthMonsters.damageRecieved(player.calculateDmgDone(65));
                 cout << playerName << "\'s basic attack did " << damageDealt
@@ -239,12 +230,12 @@ class FireJourney : menu {
                 cout << "---------------------------" << endl;
 
             // Spells
-              } else if (get_userChoice() == 2) {  // 
+              } else if (Menu.get_userChoice() == 2) {  // 
                 // display spells 
-                menuSpell();
+                Menu.menuSpell();
                     
                 // Attack Spell 
-                    if (get_userChoice() == 1){
+                    if (Menu.get_userChoice() == 1){
                         damageDealt = EarthMonsters.damageRecieved(player.getAttack() + player.getFireAtkSpell());
                         cout << player.getPlayerName() << " casted an attack spell and did "
                              << damageDealt << " damage to "
@@ -253,7 +244,7 @@ class FireJourney : menu {
                              << EarthMonsters.get_earthHealth() << " health" << endl;
                         cout << "---------------------------" << endl;
                     // Defense Spell
-                    }else if (get_userChoice() == 2){
+                    }else if (Menu.get_userChoice() == 2){
                         cout << player.getPlayerName() << " casted a defense spell! " << endl;
                         int tempHealth = 0;
                         tempHealth = player.getFireDefSpell() + player.getHealth(); 
@@ -262,7 +253,7 @@ class FireJourney : menu {
                     }
 
             // For Health potion 
-              } else if (get_userChoice() == 3){
+              } else if (Menu.get_userChoice() == 3){
                 cout << playerName << " used a health potion" << endl;
                 cout << "--------------------------------------------------"
                      << endl;
@@ -276,20 +267,20 @@ class FireJourney : menu {
               cout << "HP: " << player.getHealth() 
                                                
                    << "        Health Potions: " << player.getHealthPotion() << endl;
-              menuFightNP();
-              if (get_userChoice() == 1) {  // Basic Attack
+              Menu.menuFightNP();
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
                 // attacks the enemy player ATK
                 damageDealt = EarthMonsters.damageRecieved(player.calculateDmgDone(65));
                 cout << EarthMonsters.get_earthName() << " has "
                      << EarthMonsters.get_earthHealth() << " health" << endl;
                 cout << "---------------------------" << endl;
 
-              } else if (get_userChoice() == 2) {  // Spells
+              } else if (Menu.get_userChoice() == 2) {  // Spells
                 // display spells 
-                menuSpell();
+                Menu.menuSpell();
                     
                     // Attack Spell 
-                    if (get_userChoice() == 1){
+                    if (Menu.get_userChoice() == 1){
                         damageDealt = EarthMonsters.damageRecieved(player.getAttack() + player.getFireAtkSpell());
                         cout << player.getPlayerName() << " casted an attack spell and did "
                              << damageDealt << " damage to "
@@ -298,7 +289,7 @@ class FireJourney : menu {
                              << EarthMonsters.get_earthHealth() << " health" << endl;
                         cout << "---------------------------" << endl;
                     // Defense Spell
-                    }else if (get_userChoice() == 2){
+                    }else if (Menu.get_userChoice() == 2){
                         cout << player.getPlayerName() << " casted a defense spell! " << endl;
                         int tempHealth = 0;
                         tempHealth = player.getFireDefSpell() + player.getHealth(); 
@@ -355,10 +346,10 @@ class FireJourney : menu {
                    << "        Health Potions: " << player.getHealthPotion() << endl;
 
              // Calls the fight function from menu
-              menuFight();
+              Menu.menuFight();
 
             // Basic Attack
-              if (get_userChoice() == 1) { 
+              if (Menu.get_userChoice() == 1) { 
                 // attacks the enemy with player ATK
                 damageDealt =  WaterMonsters.damageRecieved(player.calculateDmgDone(30));
                 cout <<  WaterMonsters.get_waterName() << " has "
@@ -366,12 +357,12 @@ class FireJourney : menu {
                 cout << "---------------------------" << endl;
 
             // Spells
-              } else if (get_userChoice() == 2) {  // 
+              } else if (Menu.get_userChoice() == 2) {  // 
                 // display spells 
-                menuSpell();
+                Menu.menuSpell();
                     
                     // Attack Spell 
-                    if (get_userChoice() == 1){
+                    if (Menu.get_userChoice() == 1){
                         damageDealt =  WaterMonsters.damageRecieved(player.getAttack() + player.getFireAtkSpell());
                         cout << player.getPlayerName() << " casted an attack spell and did "
                              << damageDealt << " damage to "
@@ -380,7 +371,7 @@ class FireJourney : menu {
                              << WaterMonsters.get_waterHealth() << " health" << endl;
                         cout << "---------------------------" << endl;
                     // Defense Spell
-                    }else if (get_userChoice() == 2){
+                    }else if (Menu.get_userChoice() == 2){
                         cout << player.getPlayerName() << " casted a defense spell! " << endl;
                         int tempHealth = 0;
                         tempHealth = player.getFireDefSpell() + player.getHealth(); 
@@ -389,7 +380,7 @@ class FireJourney : menu {
                     }
 
             // For Healthpotion
-              } else if (get_userChoice() ==
+              } else if (Menu.get_userChoice() ==
                          3) {  // Use health potion (heals 50 HP)
                                // use health potion if have
                 cout << playerName << " used a health potion" << endl;
@@ -405,20 +396,20 @@ class FireJourney : menu {
               cout << "HP: " << player.getHealth() 
                                                
                    << "        Health Potions: " << player.getHealthPotion() << endl;
-              menuFightNP();
-              if (get_userChoice() == 1) {  // Basic Attack
+              Menu.menuFightNP();
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
                 // attacks the enemy player ATK
                 damageDealt =  WaterMonsters.damageRecieved(player.calculateDmgDone(30));
                 cout <<  WaterMonsters.get_waterName() << " has "
                      <<  WaterMonsters.get_waterHealth() << " health" << endl;
                 cout << "---------------------------" << endl;
 
-              } else if (get_userChoice() == 2) {  // Spells
+              } else if (Menu.get_userChoice() == 2) {  // Spells
                 // display spells 
-                menuSpell();
+                Menu.menuSpell();
                     
                     // Attack Spell 
-                    if (get_userChoice() == 1){
+                    if (Menu.get_userChoice() == 1){
                         damageDealt =  WaterMonsters.damageRecieved(player.getAttack() + player.getFireAtkSpell());
                         cout << player.getPlayerName() << " casted an attack spell and did "
                              << damageDealt << " damage to "
@@ -427,7 +418,7 @@ class FireJourney : menu {
                              << WaterMonsters.get_waterHealth() << " health" << endl;
                         cout << "---------------------------" << endl;
                     // Defense Spell
-                    }else if (get_userChoice() == 2){
+                    }else if (Menu.get_userChoice() == 2){
                         cout << player.getPlayerName() << " casted a defense spell! " << endl;
                         int tempHealth = 0;
                         tempHealth = player.getFireDefSpell() + player.getHealth(); 
@@ -487,10 +478,10 @@ class FireJourney : menu {
                    << "        Health Potions: " << player.getHealthPotion() << endl;
 
              // Calls the fight function from menu
-              menuFight();
+              Menu.menuFight();
 
             // Basic Attack
-              if (get_userChoice() == 1) { 
+              if (Menu.get_userChoice() == 1) { 
                 // attacks the enemy with player ATK
                 damageDealt =  FireMonsters.damageRecieved(player.calculateDmgDone(200));
                 cout <<  FireMonsters.get_fireName() << " has "
@@ -498,12 +489,12 @@ class FireJourney : menu {
                 cout << "---------------------------" << endl;
 
             // Spells
-              } else if (get_userChoice() == 2) {  // 
+              } else if (Menu.get_userChoice() == 2) {  // 
                 // display spells 
-                menuSpell();
+                Menu.menuSpell();
                     
                     // Attack Spell 
-                    if (get_userChoice() == 1){
+                    if (Menu.get_userChoice() == 1){
                         damageDealt =  FireMonsters.damageRecieved(player.getAttack() + player.getFireAtkSpell());
                         cout << player.getPlayerName() << " casted an attack spell and did "
                              << damageDealt << " damage to "
@@ -512,7 +503,7 @@ class FireJourney : menu {
                              << FireMonsters.get_fireHealth() << " health" << endl;
                         cout << "---------------------------" << endl;
                     // Defense Spell
-                    }else if (get_userChoice() == 2){
+                    }else if (Menu.get_userChoice() == 2){
                         cout << player.getPlayerName() << " casted a defense spell! " << endl;
                         int tempHealth = 0;
                         tempHealth = player.getFireDefSpell() + player.getHealth(); 
@@ -521,7 +512,7 @@ class FireJourney : menu {
                     }
 
             // For Healthpotion
-              } else if (get_userChoice() ==
+              } else if (Menu.get_userChoice() ==
                          3) {  // Use health potion (heals 50 HP)
                                // use health potion if have
                 cout << playerName << " used a health potion" << endl;
@@ -537,20 +528,20 @@ class FireJourney : menu {
               cout << "HP: " << player.getHealth() 
                                                
                    << "        Health Potions: " << player.getHealthPotion() << endl;
-              menuFightNP();
-              if (get_userChoice() == 1) {  // Basic Attack
+              Menu.menuFightNP();
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
                 // attacks the enemy player ATK
                 damageDealt =  FireMonsters.damageRecieved(player.calculateDmgDone(200));
                 cout <<  FireMonsters.get_fireName() << " has "
                      <<  FireMonsters.get_fireHealth() << " health" << endl;
                 cout << "---------------------------" << endl;
 
-              } else if (get_userChoice() == 2) {  // Spells
+              } else if (Menu.get_userChoice() == 2) {  // Spells
                 // display spells 
-                menuSpell();
+                Menu.menuSpell();
                     
                     // Attack Spell 
-                    if (get_userChoice() == 1){
+                    if (Menu.get_userChoice() == 1){
                         damageDealt =  FireMonsters.damageRecieved(player.getAttack() + player.getFireAtkSpell());
                         cout << player.getPlayerName() << " casted an attack spell and did "
                              << damageDealt << " damage to "
@@ -559,7 +550,7 @@ class FireJourney : menu {
                              << FireMonsters.get_fireHealth() << " health" << endl;
                         cout << "---------------------------" << endl;
                     // Defense Spell
-                    }else if (get_userChoice() == 2){
+                    }else if (Menu.get_userChoice() == 2){
                         cout << player.getPlayerName() << " casted a defense spell! " << endl;
                         int tempHealth = 0;
                         tempHealth = player.getFireDefSpell() + player.getHealth(); 
@@ -617,9 +608,9 @@ class FireJourney : menu {
                                             
                    << "        Health Potions: " << player.getHealthPotion() << endl;
             // Calls special menu with additional ability 
-              menuFightSpecial();
+              Menu.menuFightSpecial();
 
-              if (get_userChoice() == 1) {  // Basic Attack
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
                 // attacks the enemy with player ATK
                 damageDealt = ElementalDragon.damageRecieved(player.calculateDmgDone(100));
                 cout << playerName << "\'s basic attack did " << damageDealt << endl; 
@@ -629,12 +620,12 @@ class FireJourney : menu {
                 cout << "---------------------------" << endl;
 
                 // Spells
-              } else if (get_userChoice() == 2) {  
+              } else if (Menu.get_userChoice() == 2) {  
                 // display spells 
-                menuSpell();
+                Menu.menuSpell();
                 
                     // Attack Spell 
-                    if (get_userChoice() == 1){
+                    if (Menu.get_userChoice() == 1){
                         damageDealt = ElementalDragon.damageRecieved(player.getAttack() + player.getFireAtkSpell());
                         cout << player.getPlayerName() << " casted an attack spell and did "
                              << damageDealt << " damage to "
@@ -643,7 +634,7 @@ class FireJourney : menu {
                              << ElementalDragon.get_elementalHealth() << " health" << endl;
                         cout << "---------------------------" << endl;
                     // Defense Spell
-                    }else if (get_userChoice() == 2){
+                    }else if (Menu.get_userChoice() == 2){
                         cout << player.getPlayerName() << " casted a defense spell! " << endl;
                         int tempHealth = 0;
                         tempHealth = player.getFireDefSpell() + player.getHealth(); 
@@ -652,7 +643,7 @@ class FireJourney : menu {
                     }
             
             // For Health potion 
-              } else if (get_userChoice() ==
+              } else if (Menu.get_userChoice() ==
                          3) {         
                     cout << player.getPlayerName() << " used a health potion" << endl;
                     cout << "--------------------------------------------------"
@@ -661,7 +652,7 @@ class FireJourney : menu {
                     player.setHealthPotion(player.getHealthPotion() - 1);
                     player.drinkPotion(); 
                     turn++;  // gets turn back
-              } else if (get_userChoice() == 4){
+              } else if (Menu.get_userChoice() == 4){
                     cout << player.getPlayerName() << " used special ability FIRE STRIKE!" << endl;
 
                     damageDealt = ElementalDragon.damageRecieved(player.getAttack() + player.useFireStrike(100));
@@ -677,9 +668,9 @@ class FireJourney : menu {
                    << "        Health Potions: " << player.getHealthPotion() << endl;
 
             // Menu with no potion and special abilitiy 
-              menuFightNPS();
+              Menu.menuFightNPS();
 
-              if (get_userChoice() == 1) {  // Basic Attack
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
                 // attacks the enemy with player ATK
                 damageDealt = ElementalDragon.damageRecieved(player.calculateDmgDone(100));
                 cout << playerName << "\'s basic attack did " << damageDealt << endl; 
@@ -688,12 +679,12 @@ class FireJourney : menu {
                      << endl;
                 cout << "---------------------------" << endl;
 
-              } else if (get_userChoice() == 2) {  // Spells
+              } else if (Menu.get_userChoice() == 2) {  // Spells
                 // display spells 
-                menuSpell();
+                Menu.menuSpell();
                 
                     // Attack Spell 
-                    if (get_userChoice() == 1){
+                    if (Menu.get_userChoice() == 1){
                         damageDealt = ElementalDragon.damageRecieved(player.getAttack() + player.getFireAtkSpell());
                         cout << player.getPlayerName() << " casted an attack spell and did "
                              << damageDealt << " damage to "
@@ -702,7 +693,7 @@ class FireJourney : menu {
                              << ElementalDragon.get_elementalHealth() << " health" << endl;
                         cout << "---------------------------" << endl;
                     // Defense Spell
-                    }else if (get_userChoice() == 2){
+                    }else if (Menu.get_userChoice() == 2){
                         cout << player.getPlayerName() << " casted a defense spell! " << endl;
                         int tempHealth = 0;
                         tempHealth = player.getFireDefSpell() + player.getHealth(); 
@@ -711,7 +702,7 @@ class FireJourney : menu {
                     }
 
                 // Special ability
-              }else if (get_userChoice() == 3){
+              }else if (Menu.get_userChoice() == 3){
                     cout << player.getPlayerName() << " used special ability FIRE STRIKE!" << endl;
 
                     damageDealt = ElementalDragon.damageRecieved(player.getAttack() + player.useFireStrike(100));
@@ -742,7 +733,5 @@ class FireJourney : menu {
     }
     }
   };
-  cout << "Thank you for playing elementals!" << endl; 
-};
-}; 
+
 #endif

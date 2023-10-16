@@ -2,19 +2,21 @@
 #define FIREPLAYER_H
 #include "Player.h"
 
-class FirePlayer: public Player {
+class FirePlayer : public Player {
+ private:
+  int fireStrike = 100;  // Extra fire attack
 
-    private:
-    int fireStrike = 100; // Extra fire attack
+ public:
+  // default constructor:
+  FirePlayer();
 
-    public: 
-    // default constructor: 
-    FirePlayer(); 
+  // Extra fire class attack (Not a spell)
+  int useFireStrike(int monsterDefense);
 
-    // Extra fire class attack (Not a spell)
-    int useFireStrike(int monsterDefense); 
+  int getFireAtkSpell();
 
-    virtual int drinkPotion(); 
+  int getFireDefSpell();
 
+  virtual int drinkPotion();
 };
-#endif 
+#endif

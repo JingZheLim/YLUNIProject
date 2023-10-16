@@ -10,7 +10,7 @@ class menu {
  public:
   menu() {  // shows the main menu in the terminal
     cout << " _________________________________________________" << endl;
-    cout << "|  Welcome to: \"Elementals\" the Adventure Game!!|" << endl;
+    cout << "|  Welcome to: \"Elementals\" the Adventure Game!!  |" << endl;
     cout << "|                                                 |" << endl;
     cout << "|        Start(1)   Continue(2)   End(3)          |" << endl;
     cout << "|_________________________________________________|" << endl;

@@ -2,12 +2,8 @@
 #include "FireJourney.h"
 #include "FirePlayer.h"
 int main() {
-    //game OOP;
+    game OOP;
 
-    //OOP.run();
-
-    FireJourney OOP;
-    
-    OOP.run2(); 
+    OOP.run();
 
 }
