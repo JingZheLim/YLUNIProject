@@ -73,7 +73,7 @@ class WaterJourney {
         cout << "You are a brave water mage" << endl;
         cout << "--------------------------------------------------" << endl;
         cout << "What is your name brave mage?" << endl;
-        cout << "My name is: ";
+        cout << "My name is (No spaces): ";
         cin >> playerName;  // inputs users name
 
         // Sets the inputted player name to Water Player's name
@@ -2292,6 +2292,11 @@ class WaterJourney {
         }
         // Free memory allocated for WaterPlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "resolved the drought issue in your kingdom. The water is "
+             << "flowing and your kingdom is showering you with love!" << endl;
         return;
       case 4:
         // Elemental Dragon
@@ -2477,6 +2482,11 @@ class WaterJourney {
         }
         // Free memory allocated for WaterPlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "resolved the drought issue in your kingdom. The water is "
+             << "flowing and your kingdom is showering you with love!" << endl;
         return;
     }
   }

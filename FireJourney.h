@@ -71,7 +71,7 @@ class FireJourney {
         cout << "You are a mighty fire warrior" << endl;
         cout << "--------------------------------------------------" << endl;
         cout << "What is your name mighty warrior?" << endl;
-        cout << "My name is: ";
+        cout << "My name is (No spaces): ";
         cin >> playerName;  // inputs users name
 
         // Sets the inputted player name to Fire Player's name
@@ -845,6 +845,12 @@ class FireJourney {
         }
         // Free memory allocated for FirePlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "brought your kingdom great strength. Everyone is looking "
+             << "up to you with admiration, and the King has showered "
+             << "you with plenty of riches! " << endl;
         break;
       case 1:
         // save checkpoint 1
@@ -1475,6 +1481,12 @@ class FireJourney {
         }
         // Free memory allocated for FirePlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "brought your kingdom great strength. Everyone is looking "
+             << "up to you with admiration, and the King has showered "
+             << "you with plenty of riches! " << endl;
         break;
       case 2:
         // save checkpoint 2
@@ -1959,6 +1971,12 @@ class FireJourney {
         }
         // Free memory allocated for FirePlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "brought your kingdom great strength. Everyone is looking "
+             << "up to you with admiration, and the King has showered "
+             << "you with plenty of riches! " << endl;
         break;
       case 3:
         // save checkpoint 3
@@ -2294,6 +2312,12 @@ class FireJourney {
         }
         // Free memory allocated for FirePlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "brought your kingdom great strength. Everyone is looking "
+             << "up to you with admiration, and the King has showered "
+             << "you with plenty of riches! " << endl;
         break;
       case 4:
         // save checkpoint 4
@@ -2479,6 +2503,12 @@ class FireJourney {
         }
         // Free memory allocated for FirePlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "brought your kingdom great strength. Everyone is looking "
+             << "up to you with admiration, and the King has showered "
+             << "you with plenty of riches! " << endl;
         break;
     }
   }

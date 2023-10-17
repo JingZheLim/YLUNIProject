@@ -70,7 +70,7 @@ class AirJourney {
         cout << "You are a lone air adventurer." << endl;
         cout << "--------------------------------------------------" << endl;
         cout << "What is your name adventurer?" << endl;
-        cout << "My name is: ";
+        cout << "My name is (No spaces): ";
         cin >> playerName;  // inputs users name
 
         // Sets the inputted player name to Air Player's name
@@ -844,6 +844,12 @@ class AirJourney {
 
         // Free memory allocated for AirPlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "stopped the fire kingdom from gaining too much power. "
+             << "Your people have praised you for your braveness and "
+             << "has dedicated a statue of you in your honor! " << endl;
         break;
       case 1:
         // save checkpoint 1
@@ -1473,6 +1479,12 @@ class AirJourney {
 
         // Free memory allocated for AirPlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "stopped the fire kingdom from gaining too much power. "
+             << "Your people have praised you for your braveness and "
+             << "has dedicated a statue of you in your honor! " << endl;
         break;
       case 2:  // save checkpoint 2
         playerStage = 2;
@@ -1955,6 +1967,12 @@ class AirJourney {
 
         // Free memory allocated for AirPlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "stopped the fire kingdom from gaining too much power. "
+             << "Your people have praised you for your braveness and "
+             << "has dedicated a statue of you in your honor! " << endl;
         break;
       case 3:
         // THE 2nd LAST MONSTER (SAME ELEMENT TYPE AS PLAYER)
@@ -2292,6 +2310,12 @@ class AirJourney {
 
         // Free memory allocated for AirPlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "stopped the fire kingdom from gaining too much power. "
+             << "Your people have praised you for your braveness and "
+             << "has dedicated a statue of you in your honor! " << endl;
         break;
       case 4:
         // Elemental Dragon
@@ -2479,6 +2503,12 @@ class AirJourney {
 
         // Free memory allocated for AirPlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "stopped the fire kingdom from gaining too much power. "
+             << "Your people have praised you for your braveness and "
+             << "has dedicated a statue of you in your honor! " << endl;
         break;
     }
   }

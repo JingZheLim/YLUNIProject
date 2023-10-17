@@ -49,42 +49,15 @@ class game : menu {
 
       if (get_userChoice() == 1) {  // Water
         wOOP.run(300, 5, "", 0);
-        system("clear");  // clear the terminal
-        cout << "------------------------------------------------------------"
-             << endl;
-        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
-             << "resolved the drought issue in your kingdom. The water is "
-             << "flowing and your kingdom is showering you with love!" << endl;
 
       } else if (get_userChoice() == 2) {  // Earth
         eOOP.run(300,5,"",0);
-        system("clear");  // clear the terminal
-        cout << "------------------------------------------------------------"
-             << endl;
-        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
-             << "restored peace throughout all the element nations! Your "
-             << "kingdom has never seen peace like this before and is grateful"
-             << "for your braveness! " << endl;
 
       } else if (get_userChoice() == 3) {  // Fire
         fOOP.run(250, 5, "", 0);
-        system("clear");  // clear the terminal
-        cout << "------------------------------------------------------------"
-             << endl;
-        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
-             << "brought your kingdom great strength. Everyone is looking "
-             << "up to you with admiration, and the King has showered "
-             << "you with plenty of riches! " << endl;
 
       } else if (get_userChoice() == 4) {  // Air
         aOOP.run(250,5,"",0);
-        system("clear");  // clear the terminal
-        cout << "------------------------------------------------------------"
-             << endl;
-        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
-             << "stopped the fire kingdom from gaining too much power. "
-             << "Your people have praised you for your braveness and "
-             << "has dedicated a statue of you in your honor! " << endl;
       }
     }
 

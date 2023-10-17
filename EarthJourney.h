@@ -56,10 +56,6 @@ class EarthJourney {
         playerStage = 0;
         saved.saveGame(player.getHealth(), player.getHealthPotion(),
                        player.getPlayerName(), playerJourney, playerStage);
-        // load game state
-        player.setHealth(health);
-        player.setHealthPotion(potion);
-        player.setPlayerName(name);
         system("clear");
         cout << "                      GAME START                     " << endl;
         cout << "--------------------------------------------------" << endl;
@@ -74,7 +70,7 @@ class EarthJourney {
         cout << "You are a wise earth elder" << endl;
         cout << "--------------------------------------------------" << endl;
         cout << "What is your name wise elder?" << endl;
-        cout << "My name is: ";
+        cout << "My name is (No spaces): ";
         cin >> playerName;  // inputs users name
 
         // Sets the inputted player name to Earth Player's name
@@ -847,6 +843,12 @@ class EarthJourney {
         }
         // Free memory allocated for EarthPlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "restored peace throughout all the element nations! Your "
+             << "kingdom has never seen peace like this before and is grateful"
+             << "for your braveness! " << endl;
         break;
       case 1:
         // save checkpoint 1
@@ -1475,6 +1477,12 @@ class EarthJourney {
         }
         // Free memory allocated for EarthPlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "restored peace throughout all the element nations! Your "
+             << "kingdom has never seen peace like this before and is grateful"
+             << "for your braveness! " << endl;
         break;
       case 2:
         // save checkpoint 2
@@ -1957,6 +1965,12 @@ class EarthJourney {
         }
         // Free memory allocated for EarthPlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "restored peace throughout all the element nations! Your "
+             << "kingdom has never seen peace like this before and is grateful"
+             << "for your braveness! " << endl;
         break;
       case 3:
         // THE 2nd LAST MONSTER (SAME ELEMENT TYPE AS PLAYER)
@@ -2294,6 +2308,12 @@ class EarthJourney {
         }
         // Free memory allocated for EarthPlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "restored peace throughout all the element nations! Your "
+             << "kingdom has never seen peace like this before and is grateful"
+             << "for your braveness! " << endl;
         break;
       case 4:
         // Elemental Dragon
@@ -2479,6 +2499,12 @@ class EarthJourney {
         }
         // Free memory allocated for EarthPlayer's spells array
         delete[] player.getSpell();
+        cout << "------------------------------------------------------------"
+             << endl;
+        cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+             << "restored peace throughout all the element nations! Your "
+             << "kingdom has never seen peace like this before and is grateful"
+             << "for your braveness! " << endl;
         break;
     }
   }
