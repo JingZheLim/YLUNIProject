@@ -1,15 +1,5 @@
 #ifndef UNITTESTING_H
 #define UNITTESTING_H
-// create a new main file (testMain.cpp)
-// create a unitTest.h files and create tests like if(this happens) = something
-// (test each class' function) then cout << failed
-// to use make file type make in terminal
-
-/* g++ main.cpp menu.h game.h airMonster.cpp earthMonster.cpp fireMonster.cpp
-   waterMonster.cpp elementalDragon.cpp  monster.h  AirPlayer.cpp
-   EarthPlayer.cpp FirePlayer.cpp WaterPlayer.cpp Spell.cpp Player.cpp
-   unitTest.h FireJourney.h WaterJourney.h EarthJourney.h AirJourney.h -o main
- */
 
 // all monster classes
 #include "airMonster.h"
