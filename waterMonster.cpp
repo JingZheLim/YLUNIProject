@@ -38,7 +38,7 @@ int waterMonster::attack(
   }
   cout << this->mName << " used " << this->mAtkType << " and did " << damage
        << " amounts of damage!!" << endl;
-  cout << this->mName << " Healed " << healEffect << " of its HP back" << endl;
+  cout << this->mName << " increased its HP by " << healEffect << endl;
   cout << "--------------------------------------------------" << endl;
   this->mHealth += this->healEffect;  // extra attribute used here
   return damage;  // returns damage for output and association purposes
