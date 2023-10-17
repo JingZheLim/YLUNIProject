@@ -10,6 +10,8 @@
 #include "earthMonster.h"
 #include "elementalDragon.h"
 #include "fireMonster.h"
+#include "game.h"
+#include "gameState.h"
 #include "menu.h"
 #include "monster.h"
 #include "waterMonster.h"
@@ -24,6 +26,8 @@ class EarthJourney {
   int damageDealt;
   int currentHealth;
   int ogDef;
+  int playerStage = 0;
+  int playerJourney = 2;
   menu Menu;
 
   // creating the objects for monsters
@@ -33,765 +37,2450 @@ class EarthJourney {
   airMonster AirMonsters;
   elementalDragon ElementalDragon;
 
-  // create fire player object
+  // create earth player object
   // Attributes: playerName, health, attack, defense, healthPotion
   EarthPlayer player;
 
- public:
-  void run() {  // starts the entire game
-    system("clear");
-    cout << "                      GAME START                     " << endl;
-    cout << "--------------------------------------------------" << endl;
-    cout << "The earth kingdom is sick and tired of everyone fighting "
-            "because of the evil Dragon\'s powers and chaos it creates so "
-            "you must help your kingdom to defeat it and restore peace "
-            "for everyone."
-         << endl;
-    cout << "However you must also defeat the other elements\' monsters in"
-            "order to become powerful enough to take on the dragon!"
-         << endl;
-    cout << "You are a wise earth elder" << endl;
-    cout << "--------------------------------------------------" << endl;
-    cout << "What is your name wise elder?" << endl;
-    cout << "My name is: ";
-    cin >> playerName;  // inputs users name
+  // initialise game state
+  gameState saved;
 
-    // Sets the inputted player name to Fire Player's name
+ public:
+  void run(int health, int potion, string name,
+           int level) {  // starts the entire game
     player.setPlayerName(playerName);
     currentHealth = player.getHealth();
     ogDef = player.getDefense();
+    switch (level) {
+      case 0:
+        // save checkpoint 0
+        playerStage = 0;
+        saved.saveGame(player.getHealth(), player.getHealthPotion(),
+                       player.getPlayerName(), playerJourney, playerStage);
+        // load game state
+        player.setHealth(health);
+        player.setHealthPotion(potion);
+        player.setPlayerName(name);
+        system("clear");
+        cout << "                      GAME START                     " << endl;
+        cout << "--------------------------------------------------" << endl;
+        cout << "The earth kingdom is sick and tired of everyone fighting "
+                "because of the evil Dragon\'s powers and chaos it creates so "
+                "you must help your kingdom to defeat it and restore peace "
+                "for everyone."
+             << endl;
+        cout << "However you must also defeat the other elements\' monsters in"
+                "order to become powerful enough to take on the dragon!"
+             << endl;
+        cout << "You are a wise earth elder" << endl;
+        cout << "--------------------------------------------------" << endl;
+        cout << "What is your name wise elder?" << endl;
+        cout << "My name is: ";
+        cin >> playerName;  // inputs users name
 
-    cout << "You encounter your first monster!!" << endl;
-    cout << "It looks like an air monster! GET READY!!" << endl;
-    // battle Air Monster
-    cout << "--------------------------------------------------" << endl;
-    cin.get();
-    cout << "Press Enter to Continue..." << endl;
-    cin.get();  // pauses and waits for user to press enter to continue
-    system("clear");
-    int turn;
-    randNumber = rand() % 50;
-    cout << "                    BATTLE START                   " << endl;
-    cout << "--------------------------------------------------" << endl;
-    // Determines who starts their turn first
-    if (randNumber % 2 == 0) {
-      turn = 0;  // Player starts first
-    } else {
-      turn = 1;  // Monster starts first
-    }
+        // Sets the inputted player name to Earth Player's name
+        player.setPlayerName(playerName);
+        currentHealth = player.getHealth();
+        ogDef = player.getDefense();
 
-    while (player.getHealth() > 0 && AirMonsters.get_airHealth() > 0) {
-      if (turn % 2 == 0) {  // players turn
-        player.setDefense(ogDef);
-        if (player.getHealthPotion() >=
-            1) {  // if have potion display normal menu
+        cout << "You encounter your first monster!!" << endl;
+        cout << "It looks like an air monster! GET READY!!" << endl;
+        // battle Air Monster
+        cout << "--------------------------------------------------" << endl;
+        cin.get();
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        int turn;
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
+        // Determines who starts their turn first
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
 
-          cout << "HP: " << player.getHealth()
+        while (player.getHealth() > 0 && AirMonsters.get_airHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
 
-               << "                           Health Potions: "
-               << player.getHealthPotion() << endl;
+              cout << "HP: " << player.getHealth()
 
-          // Calls the fight function from menu
-          Menu.menuFight();
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
 
-          // Basic Attack
-          if (Menu.get_userChoice() == 1) {
-            // attacks the enemy with player ATK
-            damageDealt = AirMonsters.damageRecieved(
-                player.calculateDmgDone(AirMonsters.get_airDefence()));
-            cout << AirMonsters.get_airName() << " has "
-                 << AirMonsters.get_airHealth() << " health" << endl;
-            cout << "---------------------------" << endl;
+              // Calls the fight function from menu
+              Menu.menuFight();
 
-            // Spells
-          } else if (Menu.get_userChoice() == 2) {  //
-            // display spells
-            Menu.menuSpell();
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = AirMonsters.damageRecieved(
+                    player.calculateDmgDone(AirMonsters.get_airDefence()));
+                cout << AirMonsters.get_airName() << " has "
+                     << AirMonsters.get_airHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
 
-            // Attack Spell
-            if (Menu.get_userChoice() == 1) {
-              damageDealt = AirMonsters.damageRecieved(
-                  player.getAttack() + player.getEarthAtkSpell());
-              cout << player.getPlayerName()
-                   << " casted an attack spell and did " << damageDealt
-                   << " damage to " << AirMonsters.get_airName() << "!!"
-                   << endl;
-              cout << AirMonsters.get_airName() << " has "
-                   << AirMonsters.get_airHealth() << " health" << endl;
-              cout << "---------------------------" << endl;
-              // Defense Spell
-            } else if (Menu.get_userChoice() == 2) {
-              int tempDef = 0;
-              tempDef = player.getEarthDefSpell() + player.getDefense();
-              player.setDefense(tempDef);
-              cout << player.getPlayerName() << " casted a defense spell! "
-                   << "and increased defense to " << tempDef << endl;
-              cout << "---------------------------" << endl;
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = AirMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << AirMonsters.get_airName() << "!!"
+                       << endl;
+                  cout << AirMonsters.get_airName() << " has "
+                       << AirMonsters.get_airHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // For Healthpotion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              }
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              Menu.menuFightNP();
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = AirMonsters.damageRecieved(
+                    player.calculateDmgDone(AirMonsters.get_airDefence()));
+                cout << AirMonsters.get_airName() << " has "
+                     << AirMonsters.get_airHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = AirMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << AirMonsters.get_airName() << "!!"
+                       << endl;
+                  cout << AirMonsters.get_airName() << " has "
+                       << AirMonsters.get_airHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+              }
             }
-
-            // For Healthpotion
-          } else if (Menu.get_userChoice() ==
-                     3) {  // Use health potion (heals 100 HP)
-                           // use health potion if have
-            // Decreases health potion by 1
-            player.setHealthPotion(player.getHealthPotion() - 1);
-            currentHealth = player.drinkPotion();
-            turn++;  // gets turn back
+          } else {  // monsters turn
+            currentHealth -= AirMonsters.attack(player.getDefense());
+            player.setHealth(currentHealth);
           }
-        } else {  // if doesn't display menuNP
+          turn++;
 
-          cout << "HP: " << player.getHealth()
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died!!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
 
-               << "                           Health Potions: "
-               << player.getHealthPotion() << endl;
-          Menu.menuFightNP();
-          // Basic Attack
-          if (Menu.get_userChoice() == 1) {
-            // attacks the enemy with player ATK
-            damageDealt = AirMonsters.damageRecieved(
-                player.calculateDmgDone(AirMonsters.get_airDefence()));
-            cout << AirMonsters.get_airName() << " has "
-                 << AirMonsters.get_airHealth() << " health" << endl;
-            cout << "---------------------------" << endl;
-
-            // Spells
-          } else if (Menu.get_userChoice() == 2) {  //
-            // display spells
-            Menu.menuSpell();
-
-            // Attack Spell
-            if (Menu.get_userChoice() == 1) {
-              damageDealt = AirMonsters.damageRecieved(
-                  player.getAttack() + player.getEarthAtkSpell());
-              cout << player.getPlayerName()
-                   << " casted an attack spell and did " << damageDealt
-                   << " damage to " << AirMonsters.get_airName() << "!!"
-                   << endl;
-              cout << AirMonsters.get_airName() << " has "
-                   << AirMonsters.get_airHealth() << " health" << endl;
-              cout << "---------------------------" << endl;
-              // Defense Spell
-            } else if (Menu.get_userChoice() == 2) {
-              int tempDef = 0;
-              tempDef = player.getEarthDefSpell() + player.getDefense();
-              player.setDefense(tempDef);
-              cout << player.getPlayerName() << " casted a defense spell! "
-                   << "and increased defense to " << tempDef << endl;
-              cout << "---------------------------" << endl;
-            }
+          } else if (AirMonsters.get_airHealth() <= 0) {  // if monster dies
+            cout << "Monster Died!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
           }
         }
-      } else {  // monsters turn
-        currentHealth -= AirMonsters.attack(player.getDefense());
-        player.setHealth(currentHealth);
-      }
-      turn++;
 
-      if (player.getHealth() <= 0) {  // if player dies
-        cout << "You died!!!" << endl;
+        // save checkpoint 1
+        playerStage = 1;
+        saved.saveGame(player.getHealth(), player.getHealthPotion(),
+                       player.getPlayerName(), playerJourney, playerStage);
+
+        cin.get();
+        cout << "Game Saved!" << endl;
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "You encounter your second monster!!" << endl;
+        cout << "It looks like an water monster! GET READY!!" << endl;
         cout << "--------------------------------------------------" << endl;
-        return;
 
-      } else if (AirMonsters.get_airHealth() <= 0) {  // if monster dies
-        cout << "Monster Died!!" << endl;
+        // battle water Monster
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
         cout << "--------------------------------------------------" << endl;
-      }
-    }
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
 
-    cin.get();
-    cout << "Press Enter to Continue..." << endl;
-    cin.get();
-    system("clear");
-    cout << "You encounter your seoncd monster!!" << endl;
-    cout << "It looks like an water monster! GET READY!!" << endl;
-    cout << "--------------------------------------------------" << endl;
+        while (player.getHealth() > 0 && WaterMonsters.get_waterHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
 
-    // battle water Monster
-    cout << "Press Enter to Continue..." << endl;
-    cin.get();  // pauses and waits for user to press enter to continue
-    system("clear");
-    randNumber = rand() % 50;
-    cout << "                    BATTLE START                   " << endl;
-    cout << "--------------------------------------------------" << endl;
-    if (randNumber % 2 == 0) {
-      turn = 0;  // Player starts first
-    } else {
-      turn = 1;  // Monster starts first
-    }
+              cout << "HP: " << player.getHealth()
 
-    while (player.getHealth() > 0 && WaterMonsters.get_waterHealth() > 0) {
-      if (turn % 2 == 0) {  // players turn
-        player.setDefense(ogDef);
-        if (player.getHealthPotion() >=
-            1) {  // if have potion display normal menu
+                   << "                          Health Potions: "
+                   << player.getHealthPotion() << endl;
 
-          cout << "HP: " << player.getHealth()
+              // Calls the fight function from menu
+              Menu.menuFight();
 
-               << "                          Health Potions: "
-               << player.getHealthPotion() << endl;
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = WaterMonsters.damageRecieved(
+                    player.calculateDmgDone(WaterMonsters.get_waterDefence()));
+                cout << WaterMonsters.get_waterName() << " has "
+                     << WaterMonsters.get_waterHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
 
-          // Calls the fight function from menu
-          Menu.menuFight();
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
 
-          // Basic Attack
-          if (Menu.get_userChoice() == 1) {
-            // attacks the enemy with player ATK
-            damageDealt = WaterMonsters.damageRecieved(
-                player.calculateDmgDone(WaterMonsters.get_waterDefence()));
-            cout << WaterMonsters.get_waterName() << " has "
-                 << WaterMonsters.get_waterHealth() << " health" << endl;
-            cout << "---------------------------" << endl;
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = WaterMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << WaterMonsters.get_waterName() << "!!"
+                       << endl;
+                  cout << WaterMonsters.get_waterName() << " has "
+                       << WaterMonsters.get_waterHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
 
-            // Spells
-          } else if (Menu.get_userChoice() == 2) {  //
-            // display spells
-            Menu.menuSpell();
+                // For Healthpotion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              }
+            } else {  // if doesn't display menuNP
 
-            // Attack Spell
-            if (Menu.get_userChoice() == 1) {
-              damageDealt = WaterMonsters.damageRecieved(
-                  player.getAttack() + player.getEarthAtkSpell());
-              cout << player.getPlayerName()
-                   << " casted an attack spell and did " << damageDealt
-                   << " damage to " << WaterMonsters.get_waterName() << "!!"
-                   << endl;
-              cout << WaterMonsters.get_waterName() << " has "
-                   << WaterMonsters.get_waterHealth() << " health" << endl;
-              cout << "---------------------------" << endl;
-              // Defense Spell
-            } else if (Menu.get_userChoice() == 2) {
-              int tempDef = 0;
-              tempDef = player.getEarthDefSpell() + player.getDefense();
-              player.setDefense(tempDef);
-              cout << player.getPlayerName() << " casted a defense spell! "
-                   << "and increased defense to " << tempDef << endl;
-              cout << "---------------------------" << endl;
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              Menu.menuFightNP();
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = WaterMonsters.damageRecieved(
+                    player.calculateDmgDone(WaterMonsters.get_waterDefence()));
+                cout << WaterMonsters.get_waterName() << " has "
+                     << WaterMonsters.get_waterHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = WaterMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << WaterMonsters.get_waterName() << "!!"
+                       << endl;
+                  cout << WaterMonsters.get_waterName() << " has "
+                       << WaterMonsters.get_waterHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+              }
             }
-
-            // For Healthpotion
-          } else if (Menu.get_userChoice() ==
-                     3) {  // Use health potion (heals 100 HP)
-                           // use health potion if have
-            // Decreases health potion by 1
-            player.setHealthPotion(player.getHealthPotion() - 1);
-            currentHealth = player.drinkPotion();
-            turn++;  // gets turn back
+          } else {  // monsters turn
+            currentHealth -= WaterMonsters.attack(player.getDefense());
+            player.setHealth(currentHealth);
           }
-        } else {  // if doesn't display menuNP
+          turn++;
 
-          cout << "HP: " << player.getHealth()
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died!!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
 
-               << "                           Health Potions: "
-               << player.getHealthPotion() << endl;
-          Menu.menuFightNP();
-          // Basic Attack
-          if (Menu.get_userChoice() == 1) {
-            // attacks the enemy with player ATK
-            damageDealt = WaterMonsters.damageRecieved(
-                player.calculateDmgDone(WaterMonsters.get_waterDefence()));
-            cout << WaterMonsters.get_waterName() << " has "
-                 << WaterMonsters.get_waterHealth() << " health" << endl;
-            cout << "---------------------------" << endl;
-
-            // Spells
-          } else if (Menu.get_userChoice() == 2) {  //
-            // display spells
-            Menu.menuSpell();
-
-            // Attack Spell
-            if (Menu.get_userChoice() == 1) {
-              damageDealt = WaterMonsters.damageRecieved(
-                  player.getAttack() + player.getEarthAtkSpell());
-              cout << player.getPlayerName()
-                   << " casted an attack spell and did " << damageDealt
-                   << " damage to " << WaterMonsters.get_waterName() << "!!"
-                   << endl;
-              cout << WaterMonsters.get_waterName() << " has "
-                   << WaterMonsters.get_waterHealth() << " health" << endl;
-              cout << "---------------------------" << endl;
-              // Defense Spell
-            } else if (Menu.get_userChoice() == 2) {
-              int tempDef = 0;
-              tempDef = player.getEarthDefSpell() + player.getDefense();
-              player.setDefense(tempDef);
-              cout << player.getPlayerName() << " casted a defense spell! "
-                   << "and increased defense to " << tempDef << endl;
-              cout << "---------------------------" << endl;
-            }
+          } else if (WaterMonsters.get_waterHealth() <= 0) {  // if monster dies
+            cout << "Monster Died!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
           }
         }
-      } else {  // monsters turn
-        currentHealth -= WaterMonsters.attack(player.getDefense());
-        player.setHealth(currentHealth);
-      }
-      turn++;
 
-      if (player.getHealth() <= 0) {  // if player dies
-        cout << "You died!!!" << endl;
+        // save checkpoint 2
+        playerStage = 2;
+        saved.saveGame(player.getHealth(), player.getHealthPotion(),
+                       player.getPlayerName(), playerJourney, playerStage);
+        cin.get();
+        cout << "Game Saved!" << endl;
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "You encounter your third monster!!" << endl;
+        cout << "It looks like a fire monster! GET READY!!" << endl;
         cout << "--------------------------------------------------" << endl;
-        return;
 
-      } else if (WaterMonsters.get_waterHealth() <= 0) {  // if monster dies
-        cout << "Monster Died!!" << endl;
+        // battle Fire Monster
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
         cout << "--------------------------------------------------" << endl;
-      }
-    }
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
 
-    cin.get();
-    cout << "Press Enter to Continue..." << endl;
-    cin.get();
-    system("clear");
-    cout << "You encounter your third monster!!" << endl;
-    cout << "It looks like a fire monster! GET READY!!" << endl;
-    cout << "--------------------------------------------------" << endl;
+        while (player.getHealth() > 0 && FireMonsters.get_fireHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
 
-    // battle Fire Monster
-    cout << "Press Enter to Continue..." << endl;
-    cin.get();  // pauses and waits for user to press enter to continue
-    system("clear");
-    randNumber = rand() % 50;
-    cout << "                    BATTLE START                   " << endl;
-    cout << "--------------------------------------------------" << endl;
-    if (randNumber % 2 == 0) {
-      turn = 0;  // Player starts first
-    } else {
-      turn = 1;  // Monster starts first
-    }
+              cout << "HP: " << player.getHealth()
 
-    while (player.getHealth() > 0 && FireMonsters.get_fireHealth() > 0) {
-      if (turn % 2 == 0) {  // players turn
-        player.setDefense(ogDef);
-        if (player.getHealthPotion() >=
-            1) {  // if have potion display normal menu
+                   << "                          Health Potions: "
+                   << player.getHealthPotion() << endl;
 
-          cout << "HP: " << player.getHealth()
+              // Calls the fight function from menu
+              Menu.menuFight();
 
-               << "                          Health Potions: "
-               << player.getHealthPotion() << endl;
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = FireMonsters.damageRecieved(
+                    player.calculateDmgDone(FireMonsters.get_fireDefence()));
+                cout << FireMonsters.get_fireName() << " has "
+                     << FireMonsters.get_fireHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
 
-          // Calls the fight function from menu
-          Menu.menuFight();
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
 
-          // Basic Attack
-          if (Menu.get_userChoice() == 1) {
-            // attacks the enemy with player ATK
-            damageDealt = FireMonsters.damageRecieved(
-                player.calculateDmgDone(FireMonsters.get_fireDefence()));
-            cout << FireMonsters.get_fireName() << " has "
-                 << FireMonsters.get_fireHealth() << " health" << endl;
-            cout << "---------------------------" << endl;
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = FireMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << FireMonsters.get_fireName() << "!!"
+                       << endl;
+                  cout << FireMonsters.get_fireName() << " has "
+                       << FireMonsters.get_fireHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
 
-            // Spells
-          } else if (Menu.get_userChoice() == 2) {  //
-            // display spells
-            Menu.menuSpell();
+                // For Healthpotion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              }
+            } else {  // if doesn't display menuNP
 
-            // Attack Spell
-            if (Menu.get_userChoice() == 1) {
-              damageDealt = FireMonsters.damageRecieved(
-                  player.getAttack() + player.getEarthAtkSpell());
-              cout << player.getPlayerName()
-                   << " casted an attack spell and did " << damageDealt
-                   << " damage to " << FireMonsters.get_fireName() << "!!"
-                   << endl;
-              cout << FireMonsters.get_fireName() << " has "
-                   << FireMonsters.get_fireHealth() << " health" << endl;
-              cout << "---------------------------" << endl;
-              // Defense Spell
-            } else if (Menu.get_userChoice() == 2) {
-              int tempDef = 0;
-              tempDef = player.getEarthDefSpell() + player.getDefense();
-              player.setDefense(tempDef);
-              cout << player.getPlayerName() << " casted a defense spell! "
-                   << "and increased defense to " << tempDef << endl;
-              cout << "---------------------------" << endl;
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              Menu.menuFightNP();
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = FireMonsters.damageRecieved(
+                    player.calculateDmgDone(FireMonsters.get_fireDefence()));
+                cout << FireMonsters.get_fireName() << " has "
+                     << FireMonsters.get_fireHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = FireMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << FireMonsters.get_fireName() << "!!"
+                       << endl;
+                  cout << FireMonsters.get_fireName() << " has "
+                       << FireMonsters.get_fireHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+              }
             }
-
-            // For Healthpotion
-          } else if (Menu.get_userChoice() ==
-                     3) {  // Use health potion (heals 100 HP)
-                           // use health potion if have
-            // Decreases health potion by 1
-            player.setHealthPotion(player.getHealthPotion() - 1);
-            currentHealth = player.drinkPotion();
-            turn++;  // gets turn back
+          } else {  // monsters turn
+            currentHealth -= FireMonsters.attack(player.getDefense());
+            player.setHealth(currentHealth);
           }
-        } else {  // if doesn't display menuNP
+          turn++;
 
-          cout << "HP: " << player.getHealth()
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died!!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
 
-               << "                           Health Potions: "
-               << player.getHealthPotion() << endl;
-          Menu.menuFightNP();
-          // Basic Attack
-          if (Menu.get_userChoice() == 1) {
-            // attacks the enemy with player ATK
-            damageDealt = FireMonsters.damageRecieved(
-                player.calculateDmgDone(FireMonsters.get_fireDefence()));
-            cout << FireMonsters.get_fireName() << " has "
-                 << FireMonsters.get_fireHealth() << " health" << endl;
-            cout << "---------------------------" << endl;
-
-            // Spells
-          } else if (Menu.get_userChoice() == 2) {  //
-            // display spells
-            Menu.menuSpell();
-
-            // Attack Spell
-            if (Menu.get_userChoice() == 1) {
-              damageDealt = FireMonsters.damageRecieved(
-                  player.getAttack() + player.getEarthAtkSpell());
-              cout << player.getPlayerName()
-                   << " casted an attack spell and did " << damageDealt
-                   << " damage to " << FireMonsters.get_fireName() << "!!"
-                   << endl;
-              cout << FireMonsters.get_fireName() << " has "
-                   << FireMonsters.get_fireHealth() << " health" << endl;
-              cout << "---------------------------" << endl;
-              // Defense Spell
-            } else if (Menu.get_userChoice() == 2) {
-              int tempDef = 0;
-              tempDef = player.getEarthDefSpell() + player.getDefense();
-              player.setDefense(tempDef);
-              cout << player.getPlayerName() << " casted a defense spell! "
-                   << "and increased defense to " << tempDef << endl;
-              cout << "---------------------------" << endl;
-            }
+          } else if (FireMonsters.get_fireHealth() <= 0) {  // if monster dies
+            cout << "Monster Died!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
           }
         }
-      } else {  // monsters turn
-        currentHealth -= FireMonsters.attack(player.getDefense());
-        player.setHealth(currentHealth);
-      }
-      turn++;
 
-      if (player.getHealth() <= 0) {  // if player dies
-        cout << "You died!!!" << endl;
+        // THE 2nd LAST MONSTER (SAME ELEMENT TYPE AS PLAYER)
+        // After this battle the player is able to access their additional
+        // attack function save checkpoint 3
+        playerStage = 3;
+        saved.saveGame(player.getHealth(), player.getHealthPotion(),
+                       player.getPlayerName(), playerJourney, playerStage);
+        cin.get();
+        cout << "Game Saved!" << endl;
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "You encounter your fourth monster!!" << endl;
+        cout << "It looks like a EARTH monster?" << endl;
+        cout << "I wonder what will happen!" << endl;
         cout << "--------------------------------------------------" << endl;
-        return;
 
-      } else if (FireMonsters.get_fireHealth() <= 0) {  // if monster dies
-        cout << "Monster Died!!" << endl;
+        // battle Earth Monster
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
         cout << "--------------------------------------------------" << endl;
-      }
-    }
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
 
-    // THE 2nd LAST MONSTER (SAME ELEMENT TYPE AS PLAYER)
-    // After this battle the player is able to access their additional attack
-    // function
-    cin.get();
-    cout << "Press Enter to Continue..." << endl;
-    cin.get();
-    system("clear");
-    cout << "You encounter your fourth monster!!" << endl;
-    cout << "It looks like a EARTH monster?" << endl;
-    cout << "I wonder what will happen!" << endl;
-    cout << "--------------------------------------------------" << endl;
+        while (player.getHealth() > 0 && EarthMonsters.get_earthHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
 
-    // battle Earth Monster
-    cout << "Press Enter to Continue..." << endl;
-    cin.get();  // pauses and waits for user to press enter to continue
-    system("clear");
-    randNumber = rand() % 50;
-    cout << "                    BATTLE START                   " << endl;
-    cout << "--------------------------------------------------" << endl;
-    if (randNumber % 2 == 0) {
-      turn = 0;  // Player starts first
-    } else {
-      turn = 1;  // Monster starts first
-    }
+              cout << "HP: " << player.getHealth()
 
-    while (player.getHealth() > 0 && EarthMonsters.get_earthHealth() > 0) {
-      if (turn % 2 == 0) {  // players turn
-        player.setDefense(ogDef);
-        if (player.getHealthPotion() >=
-            1) {  // if have potion display normal menu
+                   << "                          Health Potions: "
+                   << player.getHealthPotion() << endl;
 
-          cout << "HP: " << player.getHealth()
+              // Calls the fight function from menu
+              Menu.menuFight();
 
-               << "                          Health Potions: "
-               << player.getHealthPotion() << endl;
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = EarthMonsters.damageRecieved(
+                    player.calculateDmgDone(EarthMonsters.get_earthDefence()));
+                cout << EarthMonsters.get_earthName() << " has "
+                     << EarthMonsters.get_earthHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
 
-          // Calls the fight function from menu
-          Menu.menuFight();
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
 
-          // Basic Attack
-          if (Menu.get_userChoice() == 1) {
-            // attacks the enemy with player ATK
-            damageDealt = EarthMonsters.damageRecieved(
-                player.calculateDmgDone(EarthMonsters.get_earthDefence()));
-            cout << EarthMonsters.get_earthName() << " has "
-                 << EarthMonsters.get_earthHealth() << " health" << endl;
-            cout << "---------------------------" << endl;
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = EarthMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << EarthMonsters.get_earthName() << "!!"
+                       << endl;
+                  cout << EarthMonsters.get_earthName() << " has "
+                       << EarthMonsters.get_earthHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
 
-            // Spells
-          } else if (Menu.get_userChoice() == 2) {  //
-            // display spells
-            Menu.menuSpell();
+                // For Healthpotion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              }
+            } else {  // if doesn't display menuNP
 
-            // Attack Spell
-            if (Menu.get_userChoice() == 1) {
-              damageDealt = EarthMonsters.damageRecieved(
-                  player.getAttack() + player.getEarthAtkSpell());
-              cout << player.getPlayerName()
-                   << " casted an attack spell and did " << damageDealt
-                   << " damage to " << EarthMonsters.get_earthName() << "!!"
-                   << endl;
-              cout << EarthMonsters.get_earthName() << " has "
-                   << EarthMonsters.get_earthHealth() << " health" << endl;
-              cout << "---------------------------" << endl;
-              // Defense Spell
-            } else if (Menu.get_userChoice() == 2) {
-              int tempDef = 0;
-              tempDef = player.getEarthDefSpell() + player.getDefense();
-              player.setDefense(tempDef);
-              cout << player.getPlayerName() << " casted a defense spell! "
-                   << "and increased defense to " << tempDef << endl;
-              cout << "---------------------------" << endl;
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              Menu.menuFightNP();
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = EarthMonsters.damageRecieved(
+                    player.calculateDmgDone(EarthMonsters.get_earthDefence()));
+                cout << EarthMonsters.get_earthName() << " has "
+                     << EarthMonsters.get_earthHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = EarthMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << EarthMonsters.get_earthName() << "!!"
+                       << endl;
+                  cout << EarthMonsters.get_earthName() << " has "
+                       << EarthMonsters.get_earthHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+              }
             }
-
-            // For Healthpotion
-          } else if (Menu.get_userChoice() ==
-                     3) {  // Use health potion (heals 100 HP)
-                           // use health potion if have
-            // Decreases health potion by 1
-            player.setHealthPotion(player.getHealthPotion() - 1);
-            currentHealth = player.drinkPotion();
-            turn++;  // gets turn back
+          } else {  // monsters turn
+            currentHealth -= EarthMonsters.attack(player.getDefense());
+            player.setHealth(currentHealth);
           }
-        } else {  // if doesn't display menuNP
+          turn++;
 
-          cout << "HP: " << player.getHealth()
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died!!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
 
-               << "                           Health Potions: "
-               << player.getHealthPotion() << endl;
-          Menu.menuFightNP();
-          // Basic Attack
-          if (Menu.get_userChoice() == 1) {
-            // attacks the enemy with player ATK
-            damageDealt = EarthMonsters.damageRecieved(
-                player.calculateDmgDone(EarthMonsters.get_earthDefence()));
-            cout << EarthMonsters.get_earthName() << " has "
-                 << EarthMonsters.get_earthHealth() << " health" << endl;
-            cout << "---------------------------" << endl;
-
-            // Spells
-          } else if (Menu.get_userChoice() == 2) {  //
-            // display spells
-            Menu.menuSpell();
-
-            // Attack Spell
-            if (Menu.get_userChoice() == 1) {
-              damageDealt = EarthMonsters.damageRecieved(
-                  player.getAttack() + player.getEarthAtkSpell());
-              cout << player.getPlayerName()
-                   << " casted an attack spell and did " << damageDealt
-                   << " damage to " << EarthMonsters.get_earthName() << "!!"
-                   << endl;
-              cout << EarthMonsters.get_earthName() << " has "
-                   << EarthMonsters.get_earthHealth() << " health" << endl;
-              cout << "---------------------------" << endl;
-              // Defense Spell
-            } else if (Menu.get_userChoice() == 2) {
-              int tempDef = 0;
-              tempDef = player.getEarthDefSpell() + player.getDefense();
-              player.setDefense(tempDef);
-              cout << player.getPlayerName() << " casted a defense spell! "
-                   << "and increased defense to " << tempDef << endl;
-              cout << "---------------------------" << endl;
-            }
+          } else if (EarthMonsters.get_earthHealth() <= 0) {  // if monster dies
+            cout << "Monster Died!!" << endl;
+            cout << "You gained a new special ability!" << endl;
+            cout << "GROUND SHAKE!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
           }
         }
-      } else {  // monsters turn
-        currentHealth -= EarthMonsters.attack(player.getDefense());
-        player.setHealth(currentHealth);
-      }
-      turn++;
 
-      if (player.getHealth() <= 0) {  // if player dies
-        cout << "You died!!!" << endl;
+        // Elemental Dragon
+        // save checkpoint 4
+        playerStage = 4;
+        saved.saveGame(player.getHealth(), player.getHealthPotion(),
+                       player.getPlayerName(), playerJourney, playerStage);
+        cin.get();
+        cout << "Game Saved!" << endl;
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "Now you have achieved the final stage!" << endl;
+        cout << "You will battle the ELEMENTAL DRAGON!!" << endl;
+        cout << "It can transform into previously fought ELEMENTAL MONSTERS!"
+             << endl;
+        cout << "AND USE THEIR ATTACKS!!" << endl;
+        cout << "Goodluck...you will need it" << endl;
         cout << "--------------------------------------------------" << endl;
-        return;
 
-      } else if (EarthMonsters.get_earthHealth() <= 0) {  // if monster dies
-        cout << "Monster Died!!" << endl;
-        cout << "You gained a new special ability!" << endl;
-        cout << "GROUND SHAKE!" << endl;
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
         cout << "--------------------------------------------------" << endl;
-      }
-    }
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+        while (player.getHealth() > 0 &&
+               ElementalDragon.get_elementalHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
 
-    // Elemental Dragon
-    cin.get();
-    cout << "Press Enter to Continue..." << endl;
-    cin.get();
-    system("clear");
-    cout << "Now you have achieved the final stage!" << endl;
-    cout << "You will battle the ELEMENTAL DRAGON!!" << endl;
-    cout << "It can transform into previously fought ELEMENTAL MONSTERS!"
-         << endl;
-    cout << "AND USE THEIR ATTACKS!!" << endl;
-    cout << "Goodluck...you will need it" << endl;
-    cout << "--------------------------------------------------" << endl;
+              cout << "HP: " << player.getHealth()
 
-    cout << "Press Enter to Continue..." << endl;
-    cin.get();  // pauses and waits for user to press enter to continue
-    system("clear");
-    randNumber = rand() % 50;
-    cout << "                    BATTLE START                   " << endl;
-    cout << "--------------------------------------------------" << endl;
-    if (randNumber % 2 == 0) {
-      turn = 0;  // Player starts first
-    } else {
-      turn = 1;  // Monster starts first
-    }
-    while (player.getHealth() > 0 &&
-           ElementalDragon.get_elementalHealth() > 0) {
-      if (turn % 2 == 0) {  // players turn
-        player.setDefense(ogDef);
-        if (player.getHealthPotion() >=
-            1) {  // if have potion display normal menu
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              // Calls special menu with additional ability
+              Menu.menuFightSpecial();
 
-          cout << "HP: " << player.getHealth()
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy with player ATK
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.calculateDmgDone(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
 
-               << "                           Health Potions: "
-               << player.getHealthPotion() << endl;
-          // Calls special menu with additional ability
-          Menu.menuFightSpecial();
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {
+                // display spells
+                Menu.menuSpell();
 
-          if (Menu.get_userChoice() == 1) {  // Basic Attack
-            // attacks the enemy with player ATK
-            damageDealt = ElementalDragon.damageRecieved(
-                player.calculateDmgDone(ElementalDragon.get_airDefence()));
-            cout << ElementalDragon.get_elementalName() << " has "
-                 << ElementalDragon.get_elementalHealth() << " health" << endl;
-            cout << "---------------------------" << endl;
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = ElementalDragon.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << ElementalDragon.get_elementalName()
+                       << "!!" << endl;
+                  cout << ElementalDragon.get_elementalName() << " has "
+                       << ElementalDragon.get_elementalHealth() << " health"
+                       << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
 
-            // Spells
-          } else if (Menu.get_userChoice() == 2) {
-            // display spells
-            Menu.menuSpell();
+                // For Health potion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              } else if (Menu.get_userChoice() == 4) {
+                cout << player.getPlayerName()
+                     << " used special ability GROUND SHAKE!" << endl;
 
-            // Attack Spell
-            if (Menu.get_userChoice() == 1) {
-              damageDealt = ElementalDragon.damageRecieved(
-                  player.getAttack() + player.getEarthAtkSpell());
-              cout << player.getPlayerName()
-                   << " casted an attack spell and did " << damageDealt
-                   << " damage to " << ElementalDragon.get_elementalName()
-                   << "!!" << endl;
-              cout << ElementalDragon.get_elementalName() << " has "
-                   << ElementalDragon.get_elementalHealth() << " health"
-                   << endl;
-              cout << "---------------------------" << endl;
-              // Defense Spell
-            } else if (Menu.get_userChoice() == 2) {
-              int tempDef = 0;
-              tempDef = player.getEarthDefSpell() + player.getDefense();
-              player.setDefense(tempDef);
-              cout << player.getPlayerName() << " casted a defense spell! "
-                   << "and increased defense to " << tempDef << endl;
-              cout << "---------------------------" << endl;
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.getAttack() +
+                    player.useGroundShake(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+              }
+
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+
+              // Menu with no potion and special abilitiy
+              Menu.menuFightNPS();
+
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy with player ATK
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.calculateDmgDone(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+
+              } else if (Menu.get_userChoice() == 2) {  // Spells
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = ElementalDragon.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << ElementalDragon.get_elementalName()
+                       << "!!" << endl;
+                  cout << ElementalDragon.get_elementalName() << " has "
+                       << ElementalDragon.get_elementalHealth() << " health"
+                       << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // Special ability
+              } else if (Menu.get_userChoice() == 3) {
+                cout << player.getPlayerName()
+                     << " used special ability GROUND SHAKE!" << endl;
+
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.getAttack() +
+                    player.useGroundShake(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+              }
             }
+          } else {  // monsters turn
 
-            // For Health potion
-          } else if (Menu.get_userChoice() ==
-                     3) {  // Use health potion (heals 100 HP)
-                           // use health potion if have
-            // Decreases health potion by 1
-            player.setHealthPotion(player.getHealthPotion() - 1);
-            currentHealth = player.drinkPotion();
-            turn++;  // gets turn back
-          } else if (Menu.get_userChoice() == 4) {
-            cout << player.getPlayerName()
-                 << " used special ability GROUND SHAKE!" << endl;
-
-            damageDealt = ElementalDragon.damageRecieved(
-                player.getAttack() +
-                player.useGroundShake(ElementalDragon.get_airDefence()));
-            cout << ElementalDragon.get_elementalName() << " has "
-                 << ElementalDragon.get_elementalHealth() << " health" << endl;
-            cout << "---------------------------" << endl;
+            currentHealth -= ElementalDragon.attack(player.getDefense());
+            player.setHealth(currentHealth);
+            cout << "Elegon returned to its Dragon Form" << endl;
           }
+          turn++;
 
-        } else {  // if doesn't display menuNP
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
 
-          cout << "HP: " << player.getHealth()
-
-               << "                           Health Potions: "
-               << player.getHealthPotion() << endl;
-
-          // Menu with no potion and special abilitiy
-          Menu.menuFightNPS();
-
-          if (Menu.get_userChoice() == 1) {  // Basic Attack
-            // attacks the enemy with player ATK
-            damageDealt = ElementalDragon.damageRecieved(
-                player.calculateDmgDone(ElementalDragon.get_airDefence()));
-            cout << ElementalDragon.get_elementalName() << " has "
-                 << ElementalDragon.get_elementalHealth() << " health" << endl;
-            cout << "---------------------------" << endl;
-
-          } else if (Menu.get_userChoice() == 2) {  // Spells
-            // display spells
-            Menu.menuSpell();
-
-            // Attack Spell
-            if (Menu.get_userChoice() == 1) {
-              damageDealt = ElementalDragon.damageRecieved(
-                  player.getAttack() + player.getEarthAtkSpell());
-              cout << player.getPlayerName()
-                   << " casted an attack spell and did " << damageDealt
-                   << " damage to " << ElementalDragon.get_elementalName()
-                   << "!!" << endl;
-              cout << ElementalDragon.get_elementalName() << " has "
-                   << ElementalDragon.get_elementalHealth() << " health"
-                   << endl;
-              cout << "---------------------------" << endl;
-              // Defense Spell
-            } else if (Menu.get_userChoice() == 2) {
-              int tempDef = 0;
-              tempDef = player.getEarthDefSpell() + player.getDefense();
-              player.setDefense(tempDef);
-              cout << player.getPlayerName() << " casted a defense spell! "
-                   << "and increased defense to " << tempDef << endl;
-              cout << "---------------------------" << endl;
-            }
-
-            // Special ability
-          } else if (Menu.get_userChoice() == 3) {
-            cout << player.getPlayerName()
-                 << " used special ability GROUND SHAKE!" << endl;
-
-            damageDealt = ElementalDragon.damageRecieved(
-                player.getAttack() +
-                player.useGroundShake(ElementalDragon.get_airDefence()));
-            cout << ElementalDragon.get_elementalName() << " has "
-                 << ElementalDragon.get_elementalHealth() << " health" << endl;
-            cout << "---------------------------" << endl;
+          } else if (ElementalDragon.get_elementalHealth() <=
+                     0) {  // if monster dies
+            cout << "Monster Died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
           }
         }
-      } else {  // monsters turn
-
-        currentHealth -= ElementalDragon.attack(player.getDefense());
-        player.setHealth(currentHealth);
-        cout << "Elegon returned to its Dragon Form" << endl;
-      }
-      turn++;
-
-      if (player.getHealth() <= 0) {  // if player dies
-        cout << "You died" << endl;
+        // Free memory allocated for EarthPlayer's spells array
+        delete[] player.getSpell();
+        break;
+      case 1:
+        // save checkpoint 1
+        playerStage = 1;
+        // load game state
+        currentHealth = health;
+        player.setHealth(health);
+        player.setHealthPotion(potion);
+        player.setPlayerName(name);
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "You encounter your second monster!!" << endl;
+        cout << "It looks like an water monster! GET READY!!" << endl;
         cout << "--------------------------------------------------" << endl;
-        return;
 
-      } else if (ElementalDragon.get_elementalHealth() <=
-                 0) {  // if monster dies
-        cout << "Monster Died" << endl;
+        // battle water Monster
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
         cout << "--------------------------------------------------" << endl;
-      }
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+
+        while (player.getHealth() > 0 && WaterMonsters.get_waterHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                          Health Potions: "
+                   << player.getHealthPotion() << endl;
+
+              // Calls the fight function from menu
+              Menu.menuFight();
+
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = WaterMonsters.damageRecieved(
+                    player.calculateDmgDone(WaterMonsters.get_waterDefence()));
+                cout << WaterMonsters.get_waterName() << " has "
+                     << WaterMonsters.get_waterHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = WaterMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << WaterMonsters.get_waterName() << "!!"
+                       << endl;
+                  cout << WaterMonsters.get_waterName() << " has "
+                       << WaterMonsters.get_waterHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // For Healthpotion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              }
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              Menu.menuFightNP();
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = WaterMonsters.damageRecieved(
+                    player.calculateDmgDone(WaterMonsters.get_waterDefence()));
+                cout << WaterMonsters.get_waterName() << " has "
+                     << WaterMonsters.get_waterHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = WaterMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << WaterMonsters.get_waterName() << "!!"
+                       << endl;
+                  cout << WaterMonsters.get_waterName() << " has "
+                       << WaterMonsters.get_waterHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+              }
+            }
+          } else {  // monsters turn
+            currentHealth -= WaterMonsters.attack(player.getDefense());
+            player.setHealth(currentHealth);
+          }
+          turn++;
+
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died!!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
+
+          } else if (WaterMonsters.get_waterHealth() <= 0) {  // if monster dies
+            cout << "Monster Died!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+          }
+        }
+
+        // save checkpoint 2
+        playerStage = 2;
+        saved.saveGame(player.getHealth(), player.getHealthPotion(),
+                       player.getPlayerName(), playerJourney, playerStage);
+        cin.get();
+        cout << "Game Saved!" << endl;
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "You encounter your third monster!!" << endl;
+        cout << "It looks like a fire monster! GET READY!!" << endl;
+        cout << "--------------------------------------------------" << endl;
+
+        // battle Fire Monster
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+
+        while (player.getHealth() > 0 && FireMonsters.get_fireHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                          Health Potions: "
+                   << player.getHealthPotion() << endl;
+
+              // Calls the fight function from menu
+              Menu.menuFight();
+
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = FireMonsters.damageRecieved(
+                    player.calculateDmgDone(FireMonsters.get_fireDefence()));
+                cout << FireMonsters.get_fireName() << " has "
+                     << FireMonsters.get_fireHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = FireMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << FireMonsters.get_fireName() << "!!"
+                       << endl;
+                  cout << FireMonsters.get_fireName() << " has "
+                       << FireMonsters.get_fireHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // For Healthpotion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              }
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              Menu.menuFightNP();
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = FireMonsters.damageRecieved(
+                    player.calculateDmgDone(FireMonsters.get_fireDefence()));
+                cout << FireMonsters.get_fireName() << " has "
+                     << FireMonsters.get_fireHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = FireMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << FireMonsters.get_fireName() << "!!"
+                       << endl;
+                  cout << FireMonsters.get_fireName() << " has "
+                       << FireMonsters.get_fireHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+              }
+            }
+          } else {  // monsters turn
+            currentHealth -= FireMonsters.attack(player.getDefense());
+            player.setHealth(currentHealth);
+          }
+          turn++;
+
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died!!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
+
+          } else if (FireMonsters.get_fireHealth() <= 0) {  // if monster dies
+            cout << "Monster Died!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+          }
+        }
+
+        // THE 2nd LAST MONSTER (SAME ELEMENT TYPE AS PLAYER)
+        // After this battle the player is able to access their additional
+        // attack function save checkpoint 3
+        playerStage = 3;
+        saved.saveGame(player.getHealth(), player.getHealthPotion(),
+                       player.getPlayerName(), playerJourney, playerStage);
+        cin.get();
+        cout << "Game Saved!" << endl;
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "You encounter your fourth monster!!" << endl;
+        cout << "It looks like a EARTH monster?" << endl;
+        cout << "I wonder what will happen!" << endl;
+        cout << "--------------------------------------------------" << endl;
+
+        // battle Earth Monster
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+
+        while (player.getHealth() > 0 && EarthMonsters.get_earthHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                          Health Potions: "
+                   << player.getHealthPotion() << endl;
+
+              // Calls the fight function from menu
+              Menu.menuFight();
+
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = EarthMonsters.damageRecieved(
+                    player.calculateDmgDone(EarthMonsters.get_earthDefence()));
+                cout << EarthMonsters.get_earthName() << " has "
+                     << EarthMonsters.get_earthHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = EarthMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << EarthMonsters.get_earthName() << "!!"
+                       << endl;
+                  cout << EarthMonsters.get_earthName() << " has "
+                       << EarthMonsters.get_earthHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // For Healthpotion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              }
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              Menu.menuFightNP();
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = EarthMonsters.damageRecieved(
+                    player.calculateDmgDone(EarthMonsters.get_earthDefence()));
+                cout << EarthMonsters.get_earthName() << " has "
+                     << EarthMonsters.get_earthHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = EarthMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << EarthMonsters.get_earthName() << "!!"
+                       << endl;
+                  cout << EarthMonsters.get_earthName() << " has "
+                       << EarthMonsters.get_earthHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+              }
+            }
+          } else {  // monsters turn
+            currentHealth -= EarthMonsters.attack(player.getDefense());
+            player.setHealth(currentHealth);
+          }
+          turn++;
+
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died!!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
+
+          } else if (EarthMonsters.get_earthHealth() <= 0) {  // if monster dies
+            cout << "Monster Died!!" << endl;
+            cout << "You gained a new special ability!" << endl;
+            cout << "GROUND SHAKE!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+          }
+        }
+
+        // Elemental Dragon
+        // save checkpoint 4
+        playerStage = 4;
+        saved.saveGame(player.getHealth(), player.getHealthPotion(),
+                       player.getPlayerName(), playerJourney, playerStage);
+        cin.get();
+        cout << "Game Saved!" << endl;
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "Now you have achieved the final stage!" << endl;
+        cout << "You will battle the ELEMENTAL DRAGON!!" << endl;
+        cout << "It can transform into previously fought ELEMENTAL MONSTERS!"
+             << endl;
+        cout << "AND USE THEIR ATTACKS!!" << endl;
+        cout << "Goodluck...you will need it" << endl;
+        cout << "--------------------------------------------------" << endl;
+
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+        while (player.getHealth() > 0 &&
+               ElementalDragon.get_elementalHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              // Calls special menu with additional ability
+              Menu.menuFightSpecial();
+
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy with player ATK
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.calculateDmgDone(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = ElementalDragon.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << ElementalDragon.get_elementalName()
+                       << "!!" << endl;
+                  cout << ElementalDragon.get_elementalName() << " has "
+                       << ElementalDragon.get_elementalHealth() << " health"
+                       << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // For Health potion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              } else if (Menu.get_userChoice() == 4) {
+                cout << player.getPlayerName()
+                     << " used special ability GROUND SHAKE!" << endl;
+
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.getAttack() +
+                    player.useGroundShake(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+              }
+
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+
+              // Menu with no potion and special abilitiy
+              Menu.menuFightNPS();
+
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy with player ATK
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.calculateDmgDone(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+
+              } else if (Menu.get_userChoice() == 2) {  // Spells
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = ElementalDragon.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << ElementalDragon.get_elementalName()
+                       << "!!" << endl;
+                  cout << ElementalDragon.get_elementalName() << " has "
+                       << ElementalDragon.get_elementalHealth() << " health"
+                       << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // Special ability
+              } else if (Menu.get_userChoice() == 3) {
+                cout << player.getPlayerName()
+                     << " used special ability GROUND SHAKE!" << endl;
+
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.getAttack() +
+                    player.useGroundShake(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+              }
+            }
+          } else {  // monsters turn
+
+            currentHealth -= ElementalDragon.attack(player.getDefense());
+            player.setHealth(currentHealth);
+            cout << "Elegon returned to its Dragon Form" << endl;
+          }
+          turn++;
+
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
+
+          } else if (ElementalDragon.get_elementalHealth() <=
+                     0) {  // if monster dies
+            cout << "Monster Died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+          }
+        }
+        // Free memory allocated for EarthPlayer's spells array
+        delete[] player.getSpell();
+        break;
+      case 2:
+        // save checkpoint 2
+        playerStage = 2;
+        // load game state
+        currentHealth = health;
+        player.setHealth(health);
+        player.setHealthPotion(potion);
+        player.setPlayerName(name);
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "You encounter your third monster!!" << endl;
+        cout << "It looks like a fire monster! GET READY!!" << endl;
+        cout << "--------------------------------------------------" << endl;
+
+        // battle Fire Monster
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+
+        while (player.getHealth() > 0 && FireMonsters.get_fireHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                          Health Potions: "
+                   << player.getHealthPotion() << endl;
+
+              // Calls the fight function from menu
+              Menu.menuFight();
+
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = FireMonsters.damageRecieved(
+                    player.calculateDmgDone(FireMonsters.get_fireDefence()));
+                cout << FireMonsters.get_fireName() << " has "
+                     << FireMonsters.get_fireHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = FireMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << FireMonsters.get_fireName() << "!!"
+                       << endl;
+                  cout << FireMonsters.get_fireName() << " has "
+                       << FireMonsters.get_fireHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // For Healthpotion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              }
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              Menu.menuFightNP();
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = FireMonsters.damageRecieved(
+                    player.calculateDmgDone(FireMonsters.get_fireDefence()));
+                cout << FireMonsters.get_fireName() << " has "
+                     << FireMonsters.get_fireHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = FireMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << FireMonsters.get_fireName() << "!!"
+                       << endl;
+                  cout << FireMonsters.get_fireName() << " has "
+                       << FireMonsters.get_fireHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+              }
+            }
+          } else {  // monsters turn
+            currentHealth -= FireMonsters.attack(player.getDefense());
+            player.setHealth(currentHealth);
+          }
+          turn++;
+
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died!!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
+
+          } else if (FireMonsters.get_fireHealth() <= 0) {  // if monster dies
+            cout << "Monster Died!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+          }
+        }
+
+        // THE 2nd LAST MONSTER (SAME ELEMENT TYPE AS PLAYER)
+        // After this battle the player is able to access their additional
+        // attack function save checkpoint 3
+        playerStage = 3;
+        saved.saveGame(player.getHealth(), player.getHealthPotion(),
+                       player.getPlayerName(), playerJourney, playerStage);
+        cin.get();
+        cout << "Game Saved!" << endl;
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "You encounter your fourth monster!!" << endl;
+        cout << "It looks like a EARTH monster?" << endl;
+        cout << "I wonder what will happen!" << endl;
+        cout << "--------------------------------------------------" << endl;
+
+        // battle Earth Monster
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+
+        while (player.getHealth() > 0 && EarthMonsters.get_earthHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                          Health Potions: "
+                   << player.getHealthPotion() << endl;
+
+              // Calls the fight function from menu
+              Menu.menuFight();
+
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = EarthMonsters.damageRecieved(
+                    player.calculateDmgDone(EarthMonsters.get_earthDefence()));
+                cout << EarthMonsters.get_earthName() << " has "
+                     << EarthMonsters.get_earthHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = EarthMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << EarthMonsters.get_earthName() << "!!"
+                       << endl;
+                  cout << EarthMonsters.get_earthName() << " has "
+                       << EarthMonsters.get_earthHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // For Healthpotion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              }
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              Menu.menuFightNP();
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = EarthMonsters.damageRecieved(
+                    player.calculateDmgDone(EarthMonsters.get_earthDefence()));
+                cout << EarthMonsters.get_earthName() << " has "
+                     << EarthMonsters.get_earthHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = EarthMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << EarthMonsters.get_earthName() << "!!"
+                       << endl;
+                  cout << EarthMonsters.get_earthName() << " has "
+                       << EarthMonsters.get_earthHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+              }
+            }
+          } else {  // monsters turn
+            currentHealth -= EarthMonsters.attack(player.getDefense());
+            player.setHealth(currentHealth);
+          }
+          turn++;
+
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died!!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
+
+          } else if (EarthMonsters.get_earthHealth() <= 0) {  // if monster dies
+            cout << "Monster Died!!" << endl;
+            cout << "You gained a new special ability!" << endl;
+            cout << "GROUND SHAKE!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+          }
+        }
+
+        // Elemental Dragon
+        // save checkpoint 4
+        playerStage = 4;
+        saved.saveGame(player.getHealth(), player.getHealthPotion(),
+                       player.getPlayerName(), playerJourney, playerStage);
+        cin.get();
+        cout << "Game Saved!" << endl;
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "Now you have achieved the final stage!" << endl;
+        cout << "You will battle the ELEMENTAL DRAGON!!" << endl;
+        cout << "It can transform into previously fought ELEMENTAL MONSTERS!"
+             << endl;
+        cout << "AND USE THEIR ATTACKS!!" << endl;
+        cout << "Goodluck...you will need it" << endl;
+        cout << "--------------------------------------------------" << endl;
+
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+        while (player.getHealth() > 0 &&
+               ElementalDragon.get_elementalHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              // Calls special menu with additional ability
+              Menu.menuFightSpecial();
+
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy with player ATK
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.calculateDmgDone(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = ElementalDragon.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << ElementalDragon.get_elementalName()
+                       << "!!" << endl;
+                  cout << ElementalDragon.get_elementalName() << " has "
+                       << ElementalDragon.get_elementalHealth() << " health"
+                       << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // For Health potion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              } else if (Menu.get_userChoice() == 4) {
+                cout << player.getPlayerName()
+                     << " used special ability GROUND SHAKE!" << endl;
+
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.getAttack() +
+                    player.useGroundShake(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+              }
+
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+
+              // Menu with no potion and special abilitiy
+              Menu.menuFightNPS();
+
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy with player ATK
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.calculateDmgDone(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+
+              } else if (Menu.get_userChoice() == 2) {  // Spells
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = ElementalDragon.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << ElementalDragon.get_elementalName()
+                       << "!!" << endl;
+                  cout << ElementalDragon.get_elementalName() << " has "
+                       << ElementalDragon.get_elementalHealth() << " health"
+                       << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // Special ability
+              } else if (Menu.get_userChoice() == 3) {
+                cout << player.getPlayerName()
+                     << " used special ability GROUND SHAKE!" << endl;
+
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.getAttack() +
+                    player.useGroundShake(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+              }
+            }
+          } else {  // monsters turn
+
+            currentHealth -= ElementalDragon.attack(player.getDefense());
+            player.setHealth(currentHealth);
+            cout << "Elegon returned to its Dragon Form" << endl;
+          }
+          turn++;
+
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
+
+          } else if (ElementalDragon.get_elementalHealth() <=
+                     0) {  // if monster dies
+            cout << "Monster Died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+          }
+        }
+        // Free memory allocated for EarthPlayer's spells array
+        delete[] player.getSpell();
+        break;
+      case 3:
+        // THE 2nd LAST MONSTER (SAME ELEMENT TYPE AS PLAYER)
+        // After this battle the player is able to access their additional
+        // attack function save checkpoint 3
+        playerStage = 3;
+        // load game state
+        currentHealth = health;
+        player.setHealth(health);
+        player.setHealthPotion(potion);
+        player.setPlayerName(name);
+
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "You encounter your fourth monster!!" << endl;
+        cout << "It looks like a EARTH monster?" << endl;
+        cout << "I wonder what will happen!" << endl;
+        cout << "--------------------------------------------------" << endl;
+
+        // battle Earth Monster
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+
+        while (player.getHealth() > 0 && EarthMonsters.get_earthHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                          Health Potions: "
+                   << player.getHealthPotion() << endl;
+
+              // Calls the fight function from menu
+              Menu.menuFight();
+
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = EarthMonsters.damageRecieved(
+                    player.calculateDmgDone(EarthMonsters.get_earthDefence()));
+                cout << EarthMonsters.get_earthName() << " has "
+                     << EarthMonsters.get_earthHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = EarthMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << EarthMonsters.get_earthName() << "!!"
+                       << endl;
+                  cout << EarthMonsters.get_earthName() << " has "
+                       << EarthMonsters.get_earthHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // For Healthpotion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              }
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              Menu.menuFightNP();
+              // Basic Attack
+              if (Menu.get_userChoice() == 1) {
+                // attacks the enemy with player ATK
+                damageDealt = EarthMonsters.damageRecieved(
+                    player.calculateDmgDone(EarthMonsters.get_earthDefence()));
+                cout << EarthMonsters.get_earthName() << " has "
+                     << EarthMonsters.get_earthHealth() << " health" << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {  //
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = EarthMonsters.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << EarthMonsters.get_earthName() << "!!"
+                       << endl;
+                  cout << EarthMonsters.get_earthName() << " has "
+                       << EarthMonsters.get_earthHealth() << " health" << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+              }
+            }
+          } else {  // monsters turn
+            currentHealth -= EarthMonsters.attack(player.getDefense());
+            player.setHealth(currentHealth);
+          }
+          turn++;
+
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died!!!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
+
+          } else if (EarthMonsters.get_earthHealth() <= 0) {  // if monster dies
+            cout << "Monster Died!!" << endl;
+            cout << "You gained a new special ability!" << endl;
+            cout << "GROUND SHAKE!" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+          }
+        }
+
+        // Elemental Dragon
+        // save checkpoint 4
+        playerStage = 4;
+        saved.saveGame(player.getHealth(), player.getHealthPotion(),
+                       player.getPlayerName(), playerJourney, playerStage);
+        cin.get();
+        cout << "Game Saved!" << endl;
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "Now you have achieved the final stage!" << endl;
+        cout << "You will battle the ELEMENTAL DRAGON!!" << endl;
+        cout << "It can transform into previously fought ELEMENTAL MONSTERS!"
+             << endl;
+        cout << "AND USE THEIR ATTACKS!!" << endl;
+        cout << "Goodluck...you will need it" << endl;
+        cout << "--------------------------------------------------" << endl;
+
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+        while (player.getHealth() > 0 &&
+               ElementalDragon.get_elementalHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              // Calls special menu with additional ability
+              Menu.menuFightSpecial();
+
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy with player ATK
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.calculateDmgDone(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = ElementalDragon.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << ElementalDragon.get_elementalName()
+                       << "!!" << endl;
+                  cout << ElementalDragon.get_elementalName() << " has "
+                       << ElementalDragon.get_elementalHealth() << " health"
+                       << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // For Health potion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              } else if (Menu.get_userChoice() == 4) {
+                cout << player.getPlayerName()
+                     << " used special ability GROUND SHAKE!" << endl;
+
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.getAttack() +
+                    player.useGroundShake(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+              }
+
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+
+              // Menu with no potion and special abilitiy
+              Menu.menuFightNPS();
+
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy with player ATK
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.calculateDmgDone(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+
+              } else if (Menu.get_userChoice() == 2) {  // Spells
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = ElementalDragon.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << ElementalDragon.get_elementalName()
+                       << "!!" << endl;
+                  cout << ElementalDragon.get_elementalName() << " has "
+                       << ElementalDragon.get_elementalHealth() << " health"
+                       << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // Special ability
+              } else if (Menu.get_userChoice() == 3) {
+                cout << player.getPlayerName()
+                     << " used special ability GROUND SHAKE!" << endl;
+
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.getAttack() +
+                    player.useGroundShake(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+              }
+            }
+          } else {  // monsters turn
+
+            currentHealth -= ElementalDragon.attack(player.getDefense());
+            player.setHealth(currentHealth);
+            cout << "Elegon returned to its Dragon Form" << endl;
+          }
+          turn++;
+
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
+
+          } else if (ElementalDragon.get_elementalHealth() <=
+                     0) {  // if monster dies
+            cout << "Monster Died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+          }
+        }
+        // Free memory allocated for EarthPlayer's spells array
+        delete[] player.getSpell();
+        break;
+      case 4:
+        // Elemental Dragon
+        // save checkpoint 4
+        playerStage = 4;
+        // load game state
+        currentHealth = health;
+        player.setHealth(health);
+        player.setHealthPotion(potion);
+        player.setPlayerName(name);
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();
+        system("clear");
+        cout << "Now you have achieved the final stage!" << endl;
+        cout << "You will battle the ELEMENTAL DRAGON!!" << endl;
+        cout << "It can transform into previously fought ELEMENTAL MONSTERS!"
+             << endl;
+        cout << "AND USE THEIR ATTACKS!!" << endl;
+        cout << "Goodluck...you will need it" << endl;
+        cout << "--------------------------------------------------" << endl;
+
+        cout << "Press Enter to Continue..." << endl;
+        cin.get();  // pauses and waits for user to press enter to continue
+        system("clear");
+        randNumber = rand() % 50;
+        cout << "                    BATTLE START                   " << endl;
+        cout << "--------------------------------------------------" << endl;
+        if (randNumber % 2 == 0) {
+          turn = 0;  // Player starts first
+        } else {
+          turn = 1;  // Monster starts first
+        }
+        while (player.getHealth() > 0 &&
+               ElementalDragon.get_elementalHealth() > 0) {
+          if (turn % 2 == 0) {  // players turn
+            player.setDefense(ogDef);
+            if (player.getHealthPotion() >=
+                1) {  // if have potion display normal menu
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+              // Calls special menu with additional ability
+              Menu.menuFightSpecial();
+
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy with player ATK
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.calculateDmgDone(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+
+                // Spells
+              } else if (Menu.get_userChoice() == 2) {
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = ElementalDragon.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << ElementalDragon.get_elementalName()
+                       << "!!" << endl;
+                  cout << ElementalDragon.get_elementalName() << " has "
+                       << ElementalDragon.get_elementalHealth() << " health"
+                       << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // For Health potion
+              } else if (Menu.get_userChoice() ==
+                         3) {  // Use health potion (heals 100 HP)
+                               // use health potion if have
+                // Decreases health potion by 1
+                player.setHealthPotion(player.getHealthPotion() - 1);
+                currentHealth = player.drinkPotion();
+                turn++;  // gets turn back
+              } else if (Menu.get_userChoice() == 4) {
+                cout << player.getPlayerName()
+                     << " used special ability GROUND SHAKE!" << endl;
+
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.getAttack() +
+                    player.useGroundShake(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+              }
+
+            } else {  // if doesn't display menuNP
+
+              cout << "HP: " << player.getHealth()
+
+                   << "                           Health Potions: "
+                   << player.getHealthPotion() << endl;
+
+              // Menu with no potion and special abilitiy
+              Menu.menuFightNPS();
+
+              if (Menu.get_userChoice() == 1) {  // Basic Attack
+                // attacks the enemy with player ATK
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.calculateDmgDone(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+
+              } else if (Menu.get_userChoice() == 2) {  // Spells
+                // display spells
+                Menu.menuSpell();
+
+                // Attack Spell
+                if (Menu.get_userChoice() == 1) {
+                  damageDealt = ElementalDragon.damageRecieved(
+                      player.getAttack() + player.getEarthAtkSpell());
+                  cout << player.getPlayerName()
+                       << " casted an attack spell and did " << damageDealt
+                       << " damage to " << ElementalDragon.get_elementalName()
+                       << "!!" << endl;
+                  cout << ElementalDragon.get_elementalName() << " has "
+                       << ElementalDragon.get_elementalHealth() << " health"
+                       << endl;
+                  cout << "---------------------------" << endl;
+                  // Defense Spell
+                } else if (Menu.get_userChoice() == 2) {
+                  int tempDef = 0;
+                  tempDef = player.getEarthDefSpell() + player.getDefense();
+                  player.setDefense(tempDef);
+                  cout << player.getPlayerName() << " casted a defense spell! "
+                       << "and increased defense to " << tempDef << endl;
+                  cout << "---------------------------" << endl;
+                }
+
+                // Special ability
+              } else if (Menu.get_userChoice() == 3) {
+                cout << player.getPlayerName()
+                     << " used special ability GROUND SHAKE!" << endl;
+
+                damageDealt = ElementalDragon.damageRecieved(
+                    player.getAttack() +
+                    player.useGroundShake(ElementalDragon.get_airDefence()));
+                cout << ElementalDragon.get_elementalName() << " has "
+                     << ElementalDragon.get_elementalHealth() << " health"
+                     << endl;
+                cout << "---------------------------" << endl;
+              }
+            }
+          } else {  // monsters turn
+
+            currentHealth -= ElementalDragon.attack(player.getDefense());
+            player.setHealth(currentHealth);
+            cout << "Elegon returned to its Dragon Form" << endl;
+          }
+          turn++;
+
+          if (player.getHealth() <= 0) {  // if player dies
+            cout << "You died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+            return;
+
+          } else if (ElementalDragon.get_elementalHealth() <=
+                     0) {  // if monster dies
+            cout << "Monster Died" << endl;
+            cout << "--------------------------------------------------"
+                 << endl;
+          }
+        }
+        // Free memory allocated for EarthPlayer's spells array
+        delete[] player.getSpell();
+        break;
     }
-    // Free memory allocated for EarthPlayer's spells array
-    delete[] player.getSpell(); 
   }
 };
 

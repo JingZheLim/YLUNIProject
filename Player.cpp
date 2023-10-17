@@ -61,6 +61,14 @@ Spell** Player::getSpell(){
     return this->playerSpells; 
 }
 
+
+void Player::addSpell(Spell** playerSpells){
+    if(currentSpells < numSpells){
+        this->playerSpells[currentSpells] = *playerSpells; 
+        currentSpells++; 
+    }
+}
+
 // Calculates base attack 
 int Player::calculateDmgDone(int monsterDefense){
     int damage = 0; // To store base attack damage

@@ -8,6 +8,7 @@ class menu {
   int userChoice;
 
  public:
+ menu(){}
   void menuStart() {  // shows the main menu in the terminal
     cout << " _________________________________________________" << endl;
     cout << "|  Welcome to: \"Elementals\" the Adventure Game!!  |" << endl;
