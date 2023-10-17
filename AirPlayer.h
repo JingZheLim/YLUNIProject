@@ -5,7 +5,7 @@
 class AirPlayer: public Player {
 
     private:
-    int windSlash = 100; // Extra earth attack
+    int windSlash = 150; // Extra earth attack
 
     public: 
     // default constructor: 
@@ -13,6 +13,10 @@ class AirPlayer: public Player {
 
     // Extra water class attack (Not a spell)
     int useWindSlash(int monsterDefense); 
+
+    int getAirAtkSpell();
+
+    int getAirDefSpell(); 
 
     virtual int drinkPotion(); 
 

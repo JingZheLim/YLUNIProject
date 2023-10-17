@@ -10,11 +10,12 @@
 #include "fireMonster.h"
 #include "menu.h"
 #include "monster.h"
+// Journey header files ( for storyline )
 #include "waterMonster.h"
 #include "FireJourney.h"
-//#include "EarthJourney.h"
-//#include "WaterJourney.h"
-//#include "AirJourney.h"
+#include "EarthJourney.h"
+#include "WaterJourney.h"
+#include "AirJourney.h"
 
 using namespace std;
 
@@ -29,19 +30,21 @@ class game : menu {
       menuElement();
       // Depending on user input, storyline follows either Water, Earth, Fire, Air
 
-      // Water 
-      if (get_userChoice() == 1) {  
-
-      // Earth 
-      } else if (get_userChoice() == 2) {  
+      if (get_userChoice() == 1) { // Water 
+          WaterJourney OOP;
+          OOP.run();  
+      
+      } else if (get_userChoice() == 2) {  // Earth 
+          EarthJourney OOP;
+          OOP.run(); 
        
-      // Fire 
-      } else if (get_userChoice() == 3) {  
+      } else if (get_userChoice() == 3) {  // Fire 
           FireJourney OOP; 
-          OOP.run2(); 
+          OOP.run(); 
 
-      // Air
-      } else if (get_userChoice() == 4) { 
+      } else if (get_userChoice() == 4) { // Air
+          AirJourney OOP;
+          OOP.run();
 
       }
     }

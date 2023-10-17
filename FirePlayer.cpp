@@ -29,19 +29,20 @@ int FirePlayer::getFireAtkSpell() { return playerSpells[0]->getSpellAttack(); }
 int FirePlayer::getFireDefSpell() { return playerSpells[1]->getSpellDefense(); }
 
 // Virtual function, effectives of potion depends on class
+// Total health = 250, health potion = 100
+// 250 - 100 = 150
 int FirePlayer::drinkPotion() {
-  this->health += 100;
-  if (this->health <= 250) {
+  if (this->health < 150) {
+    this->health += 100;
     cout << this->getPlayerName() << " healed up by 100 HP using the potion!!"
          << endl;
     cout << "--------------------------------------------------" << endl;
-    return this->health;
 
-  } else {
+  } else if (this->health >= 150) {
     this->health = 250;
     cout << this->getPlayerName() << " healed up to full using the potion!!"
          << endl;
     cout << "--------------------------------------------------" << endl;
-    return this->health;
   }
+  return this->health;
 }

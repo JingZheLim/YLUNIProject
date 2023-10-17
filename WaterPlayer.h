@@ -14,6 +14,10 @@ class WaterPlayer: public Player {
     // Extra water class attack (Not a spell)
     int useWaterFlood(int monsterDefense); 
 
+    int getWaterAtkSpell();
+
+    int getWaterDefSpell();
+
     // basic attack; 
     virtual int drinkPotion();
 

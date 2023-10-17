@@ -14,6 +14,10 @@ class EarthPlayer: public Player {
     // Extra earth class attack (Not a spell)
     int useGroundShake(int monsterDefense); 
 
+    int getEarthAtkSpell();
+
+    int getEarthDefSpell(); 
+
     virtual int drinkPotion(); 
 
 };
