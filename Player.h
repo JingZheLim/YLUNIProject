@@ -39,9 +39,6 @@ class Player {
   // Used to show player all the spells
   Spell** getSpell();  // Returns array of pointers to spells
 
-  // To add new spells into the spells array
-  void addSpell(Spell** playerSpells);
-
   int calculateDmgDone(int monsterDefense);  // Returns damage that is done by player
   int calculateDmgRecieved(int monstersAttack); // Returns damage that is done to player 
 

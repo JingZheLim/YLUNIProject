@@ -12,7 +12,6 @@ Player::Player(){
     attack = 0;
     defense = 0; 
     healthPotion = 0; 
-    currentSpells = 0;
     playerSpells = new Spell*[numSpells]; 
 }
 
@@ -60,14 +59,6 @@ void Player::setHealthPotion(int healthPotion){
 // Used to show player all the spells
 Spell** Player::getSpell(){
     return this->playerSpells; 
-}
-
-
-void Player::addSpell(Spell** playerSpells){
-    if(currentSpells < numSpells){
-        this->playerSpells[currentSpells] = *playerSpells; 
-        currentSpells++; 
-    }
 }
 
 // Calculates base attack 

@@ -44,10 +44,24 @@ class unitTesting {
   waterMonster WaterMonsters;
   elementalDragon ElementalDragons;
 
-  //
+  // create player objects
+  Player _Player;
+  AirPlayer Air_Player;
+  EarthPlayer Earth_Player;
+  FirePlayer Fire_Player;
+  WaterPlayer Water_Player;
+
+  // To store whether test failed or passed
   bool allMonsterGetterTestPass = true;
   bool allMonsterDamageRecieveTestPass = true;
   bool allMonsterAttackPass = true;
+  bool allPlayerGetterTestPass = true;
+  bool allPlayerSetterTestPass = true; 
+  bool allPlayerDamageRecieveTestPass = true; 
+  bool allPlayerAttackPass = true; 
+  bool allPlayerDrinkPotionPass = true;
+  bool allSpellGetterTestPass = true; 
+  bool allPlayerSpecialAttackPass = true; 
 
  public:
   // Monsters (with random number in (int playersDefence))
@@ -416,15 +430,287 @@ class unitTesting {
       cout << "All Monster Attack Tests Passed!" << endl;
     }
   }
+  
+  void testPlayerGetters(){
 
-  /* Player (with random number in (int monsterDefense))
-         Check setters and getters
-         Check calculateDmgDone
-         Check calculateDmgRecieved
-         Check drinkPotion
-         Check Spells
-         Check Special Ability Damage
-          */
+    // Air Players
+    if (Air_Player.getHealth() != 250){
+      cout << "Air Player Getter Failed!" << endl; 
+      allPlayerGetterTestPass = false;
+    }
+
+    if (Air_Player.getAttack() != 130){
+      cout << "Air Player Getter Failed!" << endl; 
+      allPlayerGetterTestPass = false;
+    }
+
+    if (Air_Player.getDefense() != 30){
+      cout << "Air Player Getter Failed!" << endl; 
+      allPlayerGetterTestPass = false;
+    }
+
+    if (Air_Player.getHealthPotion() != 5){
+      cout << "Air Player Getter Failed!" << endl;
+      allPlayerGetterTestPass = false;
+    }
+
+    // Earth Players
+    if (Earth_Player.getHealth() != 300){
+      cout << "Earth Player Getter Failed!" << endl; 
+      allPlayerGetterTestPass = false;
+    }
+
+    if (Earth_Player.getAttack() != 100){
+      cout << "Earth Player Getter Failed!" << endl; 
+      allPlayerGetterTestPass = false;
+    }
+
+    if (Earth_Player.getDefense() != 35){
+      cout << "Earth Player Getter Failed!" << endl; 
+      allPlayerGetterTestPass = false;
+    }
+
+    if (Earth_Player.getHealthPotion() != 5){
+      cout << "Earth Player Getter Failed!" << endl;
+      allPlayerGetterTestPass = false;
+    }
+
+    // Fire Players
+    if (Fire_Player.getHealth() != 250){
+      cout << "Fire Player Getter Failed!" << endl; 
+      allPlayerGetterTestPass = false;
+    }
+
+    if (Fire_Player.getAttack() != 150){
+      cout << "Fire Player Getter Failed!" << endl; 
+      allPlayerGetterTestPass = false;
+    }
+
+    if (Fire_Player.getDefense() != 15){
+      cout << "Fire Player Getter Failed!" << endl; 
+      allPlayerGetterTestPass = false;
+    }
+
+    if (Fire_Player.getHealthPotion() != 5){
+      cout << "Fire Player Getter Failed!" << endl;
+      allPlayerGetterTestPass = false;
+    }
+
+    // Water Players
+    if (Water_Player.getHealth() != 300){
+      cout << "Water Player Getter Failed!" << endl; 
+      allPlayerGetterTestPass = false;
+    }
+
+    if (Water_Player.getAttack() != 125){
+      cout << "Water Player Getter Failed!" << endl; 
+      allPlayerGetterTestPass = false;
+    }
+
+    if (Water_Player.getDefense() != 20){
+      cout << "Water Player Getter Failed!" << endl; 
+      allPlayerGetterTestPass = false;
+    }
+
+    if (Water_Player.getHealthPotion() != 5){
+      cout << "Water Player Getter Failed!" << endl;
+      allPlayerGetterTestPass = false;
+    }
+
+    if (allPlayerGetterTestPass == true){
+      cout << "All Player Getters Passed!" << endl; 
+    }
+  }
+
+  void testPlayerSetters(){
+    int testNum = 233;
+    string playerName = "Jumpy Joe"; 
+    _Player.setPlayerName("Jumpy Joe"); 
+    _Player.setHealth(testNum);
+    _Player.setAttack(testNum);
+    _Player.setDefense(testNum);
+    _Player.setHealthPotion(testNum);
+
+    if (_Player.getPlayerName() != playerName){
+      allPlayerSetterTestPass = false;
+    }
+
+    if (_Player.getHealth() != testNum){
+      allPlayerSetterTestPass = false;
+    }
+
+    if (_Player.getAttack() != testNum){
+      allPlayerSetterTestPass = false;
+    }
+
+    if (_Player.getDefense() != testNum){
+      allPlayerSetterTestPass = false;
+    }
+    if (_Player.getHealthPotion() != testNum){
+      allPlayerSetterTestPass = false;
+    }
+    if (allPlayerSetterTestPass == true){
+      cout << "All Player Setters Passed!" << endl; 
+    }
+  }
+
+  void testPlayerDamageRecieved(){
+    int monsterAtk1 = 100000; // Big number 
+    int monsterAtk2 = 0; // Edge case 
+    int monsterAtk3 = -10; // Negative number 
+    _Player.setHealth(500); // Set player's health
+
+    if (_Player.calculateDmgRecieved(monsterAtk1) != 99500){
+      allPlayerDamageRecieveTestPass = false; 
+    }
+    if (_Player.calculateDmgRecieved(monsterAtk2) != -500){
+      allPlayerDamageRecieveTestPass = false; 
+    }
+    if (_Player.calculateDmgRecieved(monsterAtk3) != -510){
+      allPlayerDamageRecieveTestPass = false; 
+    }
+    if (allPlayerDamageRecieveTestPass == true){
+      cout << "All Player Damage Recieved Test Passed!" << endl; 
+    }
+  }
+
+  void testPlayerDamageDone(){
+    int monsterDef1 = 100000; // Big number 
+    int monsterDef2 = 0; // Edge case 
+    int monsterDef3 = -10; // Negative number
+    _Player.setAttack(990); // Set player's attack
+
+    if (_Player.calculateDmgDone(monsterDef1) != 990){
+      allPlayerDamageRecieveTestPass = false; 
+    }
+    if (_Player.calculateDmgDone(monsterDef2) != 990){
+      allPlayerDamageRecieveTestPass = false; 
+    }
+    if (_Player.calculateDmgDone(monsterDef3) != 990){
+      allPlayerDamageRecieveTestPass = false; 
+    }
+    if (allPlayerAttackPass == true){
+      cout << "All Player Damage Done Test Passed!" << endl; 
+    }
+  }
+
+  void testPlayerDrinkPotion(){
+    _Player.setHealth(300); // Set the player's health 
+
+    // Air Player
+    if (_Player.drinkPotion() != 250){
+      allPlayerDrinkPotionPass = false; 
+    }
+    // Earth Player
+    if (_Player.drinkPotion() != 250){
+      allPlayerDrinkPotionPass = false; 
+    }
+    // Fire Player
+    if (_Player.drinkPotion() != 300){
+      allPlayerDrinkPotionPass = false; 
+    }
+    // Water Player
+    if (_Player.drinkPotion() != 250){
+      allPlayerDrinkPotionPass = false; 
+    }
+    if ( allPlayerDrinkPotionPass == true){
+      cout << "All Player Drink Potion Test Passed!" << endl; 
+    }
+  }
+
+  // Air -> Earth -> Fire -> Water ( Atk and Def)
+  void testPlayerSpellGetter(){
+    // Atk Spells
+    // Air Player
+    if(Air_Player.getAirAtkSpell() != 50){
+      allSpellGetterTestPass = false; 
+    }
+    // Earth Player
+    if(Earth_Player.getEarthAtkSpell() != 25){
+      allSpellGetterTestPass = false; 
+    }
+    // Fire Player
+    if(Fire_Player.getFireAtkSpell() != 50){
+      allSpellGetterTestPass = false; 
+    }
+    // Water Player
+    if(Water_Player.getWaterAtkSpell() != 75){
+      allSpellGetterTestPass = false; 
+    }
+    // Def Spells
+    // Air Player
+    if(Air_Player.getAirDefSpell() != 50){
+      allSpellGetterTestPass = false; 
+    }
+    // Earth Player
+    if(Earth_Player.getEarthDefSpell() != 75){
+      allSpellGetterTestPass = false; 
+    }
+    // Fire Player
+    if(Fire_Player.getFireDefSpell() != 50){
+      allSpellGetterTestPass = false; 
+    }
+    // Water Player
+    if(Water_Player.getWaterDefSpell() != 25){
+      allSpellGetterTestPass = false; 
+    }
+    if (allSpellGetterTestPass == true){
+      cout << "All Player Spell Getters Test Passed!" << endl; 
+    }
+  }
+
+// bool allPlayerSpecialAttackPass = true;
+// Air, Earth, Fire, Water
+  void testPlayerSpecialAttack(){
+    int monsterDef1 = 10000; // Big Number
+    int monsterDef2 = 0; // Edge Case
+    int monsterDef3 = -6; // Negative Number 
+
+    // Air Player
+    if (Air_Player.useWindSlash(monsterDef1) != -9850){
+      allPlayerSpecialAttackPass = false; 
+    }
+    if (Air_Player.useWindSlash(monsterDef2) != 150){
+      allPlayerSpecialAttackPass = false; 
+    }
+    if (Air_Player.useWindSlash(monsterDef3) != 156){
+      allPlayerSpecialAttackPass = false; 
+    }
+    // Earth Player
+    if (Earth_Player.useGroundShake(monsterDef1) != -9900){
+      allPlayerSpecialAttackPass = false; 
+    }
+    if (Earth_Player.useGroundShake(monsterDef2) != 100){
+      allPlayerSpecialAttackPass = false; 
+    }
+    if (Earth_Player.useGroundShake(monsterDef3) != 106){
+      allPlayerSpecialAttackPass = false; 
+    }
+    // Fire Player
+    if (Fire_Player.useFireStrike(monsterDef1) != -9850){
+      allPlayerSpecialAttackPass = false; 
+    }
+    if (Fire_Player.useFireStrike(monsterDef2) != 150){
+      allPlayerSpecialAttackPass = false; 
+    }
+    if (Fire_Player.useFireStrike(monsterDef3) != 156){
+      allPlayerSpecialAttackPass = false; 
+    }    
+    // Water Player
+    if (Water_Player.useWaterFlood(monsterDef1) != -9900){
+      allPlayerSpecialAttackPass = false; 
+    }
+    if (Water_Player.useWaterFlood(monsterDef2) != 100){
+      allPlayerSpecialAttackPass = false; 
+    }
+    if (Water_Player.useWaterFlood(monsterDef3) != 106){
+      allPlayerSpecialAttackPass = false; 
+    }  
+    if (allPlayerSpecialAttackPass == true){
+      cout << "All Player Special Attack Test Passed!" << endl; 
+    } 
+  }
+
 };
 
 #endif
