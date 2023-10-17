@@ -700,7 +700,7 @@ class AirJourney {
                            // use health potion if have
             // Decreases health potion by 1
             player.setHealthPotion(player.getHealthPotion() - 1);
-            player.drinkPotion();
+            currentHealth = player.drinkPotion();
             turn++;  // gets turn back
           } else if (Menu.get_userChoice() == 4) {
             cout << player.getPlayerName()

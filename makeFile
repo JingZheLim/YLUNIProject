@@ -14,7 +14,7 @@ TARGET = unitTesting
 
 # Source files
 
-SRCS = testMain.cpp menu.h game.h airMonster.cpp earthMonster.cpp fireMonster.cpp waterMonster.cpp elementalDragon.cpp  monster.h  AirPlayer.cpp EarthPlayer.cpp FirePlayer.cpp WaterPlayer.cpp Spell.cpp Player.cpp unitTest.h FireJourney.h WaterJourney.h EarthJourney.h AirJourney.h
+SRCS = g++ fireMonster.cpp waterMonster.cpp earthMonster.cpp airMonster.cpp FirePlayer.cpp WaterPlayer.cpp EarthPlayer.cpp AirPlayer.cpp elementalDragon.cpp Player.cpp Spell.cpp unitTestMain.cpp unitTest.h
 
 # Build and run tests
 
