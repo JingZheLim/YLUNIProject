@@ -29,12 +29,6 @@
 #include "WaterPlayer.h"
 #include "menu.h"
 
-// all journeys
-#include "AirJourney.h"
-#include "EarthJourney.h"
-#include "FireJourney.h"
-#include "WaterJourney.h"
-
 class unitTesting {
  private:
   // create monster objects
@@ -177,7 +171,7 @@ class unitTesting {
     }
 
     if (allMonsterGetterTestPass == true) {  // if all getter tests passes
-      cout << "All Monster Getter Tests Passed!" << endl;
+      cout << "(All Monster Getter Tests Passed!)" << endl;
     }
   }
 
@@ -319,7 +313,7 @@ class unitTesting {
 
     if (allMonsterDamageRecieveTestPass ==
         true) {  // if all getter tests passes
-      cout << "All Monster Damage Recieved Tests Passed!" << endl;
+      cout << "(All Monster Damage Recieved Tests Passed!)" << endl;
     }
   }
 
@@ -427,7 +421,7 @@ class unitTesting {
     // Monster Attack Tests Passed! is not showing and go through everthing
     // sorry)
     if (allMonsterAttackPass == true) {  // if all damage recieved tests passes
-      cout << "All Monster Attack Tests Passed!" << endl;
+      cout << "(All Monster Attack Tests Passed!)" << endl;
     }
   }
   
@@ -518,7 +512,7 @@ class unitTesting {
     }
 
     if (allPlayerGetterTestPass == true){
-      cout << "All Player Getters Passed!" << endl; 
+      cout << "(All Player Getters Passed!)" << endl; 
     }
   }
 
@@ -550,27 +544,33 @@ class unitTesting {
       allPlayerSetterTestPass = false;
     }
     if (allPlayerSetterTestPass == true){
-      cout << "All Player Setters Passed!" << endl; 
+      cout << "(All Player Setters Passed!)" << endl; 
     }
   }
 
   void testPlayerDamageRecieved(){
-    int monsterAtk1 = 100000; // Big number 
+    int monsterAtk1 = 10000; // Big number 
     int monsterAtk2 = 0; // Edge case 
     int monsterAtk3 = -10; // Negative number 
-    _Player.setHealth(500); // Set player's health
+    _Player.setHealth(200); // Set player's health
 
-    if (_Player.calculateDmgRecieved(monsterAtk1) != 99500){
+    if (_Player.calculateDmgRecieved(monsterAtk1) != 9800){
       allPlayerDamageRecieveTestPass = false; 
     }
-    if (_Player.calculateDmgRecieved(monsterAtk2) != -500){
+    _Player.setHealth(200); // re-set player's health
+
+    if (_Player.calculateDmgRecieved(monsterAtk2) != -200){
       allPlayerDamageRecieveTestPass = false; 
     }
-    if (_Player.calculateDmgRecieved(monsterAtk3) != -510){
+    _Player.setHealth(200); // re-set player's health
+
+    if (_Player.calculateDmgRecieved(monsterAtk3) != -210){
       allPlayerDamageRecieveTestPass = false; 
     }
+    _Player.setHealth(200); // re-set player's health
+
     if (allPlayerDamageRecieveTestPass == true){
-      cout << "All Player Damage Recieved Test Passed!" << endl; 
+      cout << "(All Player Damage Recieved Test Passed!)" << endl; 
     }
   }
 
@@ -589,32 +589,32 @@ class unitTesting {
     if (_Player.calculateDmgDone(monsterDef3) != 990){
       allPlayerDamageRecieveTestPass = false; 
     }
+
     if (allPlayerAttackPass == true){
-      cout << "All Player Damage Done Test Passed!" << endl; 
+      cout << "(All Player Damage Done Test Passed!)" << endl; 
     }
   }
 
   void testPlayerDrinkPotion(){
-    _Player.setHealth(300); // Set the player's health 
-
     // Air Player
-    if (_Player.drinkPotion() != 250){
+    if (Air_Player.drinkPotion() != 250){
       allPlayerDrinkPotionPass = false; 
     }
     // Earth Player
-    if (_Player.drinkPotion() != 250){
+    if (Earth_Player.drinkPotion() != 300){
       allPlayerDrinkPotionPass = false; 
     }
     // Fire Player
-    if (_Player.drinkPotion() != 300){
+    if (Fire_Player.drinkPotion() != 250){
       allPlayerDrinkPotionPass = false; 
     }
     // Water Player
-    if (_Player.drinkPotion() != 250){
+    if (Water_Player.drinkPotion() != 300){
       allPlayerDrinkPotionPass = false; 
     }
+
     if ( allPlayerDrinkPotionPass == true){
-      cout << "All Player Drink Potion Test Passed!" << endl; 
+      cout << "(All Player Drink Potion Test Passed!)" << endl; 
     }
   }
 
@@ -655,7 +655,7 @@ class unitTesting {
       allSpellGetterTestPass = false; 
     }
     if (allSpellGetterTestPass == true){
-      cout << "All Player Spell Getters Test Passed!" << endl; 
+      cout << "(All Player Spell Getters Test Passed!)" << endl; 
     }
   }
 
@@ -706,8 +706,9 @@ class unitTesting {
     if (Water_Player.useWaterFlood(monsterDef3) != 106){
       allPlayerSpecialAttackPass = false; 
     }  
+
     if (allPlayerSpecialAttackPass == true){
-      cout << "All Player Special Attack Test Passed!" << endl; 
+      cout << "(All Player Special Attack Test Passed!)" << endl; 
     } 
   }
 
