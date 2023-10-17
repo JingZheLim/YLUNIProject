@@ -11,11 +11,8 @@ class Player {
   int health;         // base health (according to player type)
   int attack;         // base attack (set according to player type)
   int defense;        // base defense (set according to player type)
-
   int healthPotion;  // player can have multiple potions
-
-  int currentSpells; // Keep count of current spells
-  int numSpells = 8; // To keep count of number of spells 
+  int numSpells = 2; // To keep count of number of spells 
   Spell** playerSpells;  // For array of spells  
 
  public:

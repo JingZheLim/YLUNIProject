@@ -790,6 +790,8 @@ class EarthJourney {
         cout << "--------------------------------------------------" << endl;
       }
     }
+    // Free memory allocated for EarthPlayer's spells array
+    delete[] player.getSpell(); 
   }
 };
 

@@ -790,7 +790,11 @@ class AirJourney {
         cout << "--------------------------------------------------" << endl;
       }
     }
+
+    // Free memory allocated for AirPlayer's spells array
+    delete[] player.getSpell(); 
   }
+
 };
 
 #endif

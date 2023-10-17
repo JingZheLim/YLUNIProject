@@ -9,7 +9,6 @@ EarthPlayer::EarthPlayer() {
   attack = 100;
   defense = 35;
   playerSpells = new Spell*[numSpells];
-  currentSpells = 2;
   playerSpells[0] = new Spell("Earthquake", 25);      // Attack spell
   playerSpells[1] = new Spell(75, "Grass Mountain");  // Defense spell
   healthPotion = 5;

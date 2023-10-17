@@ -9,7 +9,6 @@ WaterPlayer::WaterPlayer() {
   attack = 125;
   defense = 20;
   playerSpells = new Spell*[numSpells];
-  currentSpells = 2;
   playerSpells[0] = new Spell("Water Blast", 75);    // Attack spell
   playerSpells[1] = new Spell(25, "Water Barrier");  // Defense spell
   healthPotion = 5;

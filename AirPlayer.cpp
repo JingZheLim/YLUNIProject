@@ -9,7 +9,6 @@ AirPlayer::AirPlayer() {
   attack = 130;
   defense = 30;
   playerSpells = new Spell*[numSpells];
-  currentSpells = 2;
   playerSpells[0] = new Spell("Tornado", 50);      // Attack spell
   playerSpells[1] = new Spell(50, "Wind Shield");  // Defense spell
   healthPotion = 5;

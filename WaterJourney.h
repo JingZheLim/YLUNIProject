@@ -792,6 +792,8 @@ class WaterJourney {
         cout << "--------------------------------------------------" << endl;
       }
     }
+    // Free memory allocated for WaterPlayer's spells array
+    delete[] player.getSpell(); 
   }
 };
 

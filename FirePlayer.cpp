@@ -9,7 +9,6 @@ FirePlayer::FirePlayer() {
   attack = 150;
   defense = 15;
   playerSpells = new Spell*[numSpells];
-  currentSpells = 2;
   playerSpells[0] = new Spell("Fire Balls", 50);    // Attack spell
   playerSpells[1] = new Spell(50, "Fire Fortify");  // Defense spell
   healthPotion = 5;

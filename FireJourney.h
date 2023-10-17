@@ -790,6 +790,8 @@ class FireJourney {
         cout << "--------------------------------------------------" << endl;
       }
     }
+    // Free memory allocated for FirePlayer's spells array
+    delete[] player.getSpell(); 
   }
 };
 

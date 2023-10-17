@@ -10,8 +10,8 @@
 #include "fireMonster.h"
 #include "menu.h"
 #include "monster.h"
-// Journey header files ( for storyline )
 #include "waterMonster.h"
+// Journey header files ( for storyline )
 #include "FireJourney.h"
 #include "EarthJourney.h"
 #include "WaterJourney.h"
@@ -32,20 +32,46 @@ class game : menu {
 
       if (get_userChoice() == 1) { // Water 
           WaterJourney OOP;
-          OOP.run();  
+          OOP.run(); 
+          system("clear"); // clear the terminal
+          cout << "------------------------------------------------------------" << endl;
+          cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+               << " resolved the drought issue in your kingdom. The water is "
+               << " flowing and your kingdom is showering you with love!" <<
+               endl; 
       
       } else if (get_userChoice() == 2) {  // Earth 
           EarthJourney OOP;
-          OOP.run(); 
+          OOP.run();
+          system("clear"); // clear the terminal
+          cout << "------------------------------------------------------------" << endl;
+          cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+               << " restored peace throughout all the element nations! Your "
+               << " kindom has never seen peace like this before and is grateful"
+               << " for your braveness! " <<
+               endl;  
        
       } else if (get_userChoice() == 3) {  // Fire 
           FireJourney OOP; 
-          OOP.run(); 
+          OOP.run();
+          system("clear"); // clear the terminal
+          cout << "------------------------------------------------------------" << endl;
+          cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+               << " brought your kingdom great strength. Everyone is looking "
+               << " up to you with admiration, and the King has showered " 
+               << " you with plenty of riches! " << 
+               endl;  
 
       } else if (get_userChoice() == 4) { // Air
           AirJourney OOP;
           OOP.run();
-
+          system("clear"); // clear the terminal
+          cout << "------------------------------------------------------------" << endl;
+          cout << " Congratulations on SLAYING the EVIL Dragon!! you have "
+               << " stopped the fire kingdom from gaining too much power. "
+               << " Your people have praised you for your braveness and " 
+               << " has dedicated a statue of you in your honor! " << 
+               endl; 
       }
     }
 
