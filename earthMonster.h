@@ -8,12 +8,17 @@ using namespace std;
 
 class earthMonster : public monster {
  protected:
-  int defUp;
+  int defUp;  // extra attribute which permantly increases earth monsters
+              // defence
 
  public:
-  earthMonster();
-  int damageRecieved(int playersAttack);
-  int attack(int playersDefence);
+  earthMonster();                         // default constructor
+  int damageRecieved(int playersAttack);  // calculate damage recieved and
+                                          // directly changes objects attributes
+  int attack(int playersDefence);  // calculates damage done and returns that
+                                   // damage while outputing message
+
+  // getters
   int get_earthHealth();
   int get_earthAttack();
   int get_earthDefence();

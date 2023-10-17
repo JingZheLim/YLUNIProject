@@ -3,18 +3,21 @@
 #include <string>
 using namespace std;
 #include <iostream>
+
 #include "monster.h"
 
+class fireMonster : public monster {
+ protected:
+  int burnDamage;  // extra attribute which does extra damage to player
 
+ public:
+  fireMonster();                          // default constructor
+  int damageRecieved(int playersAttack);  // calculate damage recieved and
+                                          // directly changes objects attributes
+  int attack(int playersDefence);  // calculates damage done and returns that
+                                   // damage while outputing message
 
-class fireMonster  : public monster {
-    protected:
-    int burnDamage;
-
-    public:
-    fireMonster();
-  int damageRecieved(int playersAttack);
-  int attack(int playersDefence);
+  // getters
   int get_fireHealth();
   int get_fireAttack();
   int get_fireDefence();

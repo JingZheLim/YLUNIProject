@@ -8,12 +8,16 @@ using namespace std;
 
 class airMonster : public monster {
  protected:
-  int atkUp;
+  int atkUp;  // extra attribute which permantly increases air monsters attack
 
  public:
-  airMonster();
-  int damageRecieved(int playersAttack);
-  int attack(int playersDefence);
+  airMonster();                           // default constructor
+  int damageRecieved(int playersAttack);  // calculate damage recieved and
+                                          // directly changes objects attributes
+  int attack(int playersDefence);  // calculates damage done and returns that
+                                   // damage while outputing message
+
+  // getters
   int get_airHealth();
   int get_airAttack();
   int get_airDefence();

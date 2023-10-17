@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 
-class monster{
+class monster{ // pure abstract class 
 
     protected:
     int mHealth = 0;
@@ -13,7 +13,7 @@ class monster{
     string mAtkType = " ";
 
     public:
-    virtual int damageRecieved(int playersAttack) = 0;
+    virtual int damageRecieved(int playersAttack) = 0; 
     virtual int attack(int playersDefence) = 0;  
 
 };

@@ -6,7 +6,7 @@
 #include "monster.h"
 using namespace std;
 
-airMonster::airMonster() {
+airMonster::airMonster() {  // creates air monsters attributes when called
   this->mHealth = 100;
   this->mAttack = 50;
   this->mDefence = 50;
@@ -15,7 +15,8 @@ airMonster::airMonster() {
   this->atkUp = 5;
 }
 
-int airMonster::damageRecieved(int playersAttack) {
+int airMonster::damageRecieved(
+    int playersAttack) {  // directly changes monsters attributes
   int pDamage = playersAttack - mDefence;
   if (pDamage < 0) {  // if less than 0, make sure damage = 0 so that it doesn't
                       // add the damage to health instead
@@ -25,10 +26,12 @@ int airMonster::damageRecieved(int playersAttack) {
   if (this->mHealth < 0) {  // if less than 0 reset hp to 0 for output purposes
     this->mHealth = 0;
   }
-  return pDamage;
+  return pDamage;  // returns damage number for output purposes
 }
 
-int airMonster::attack(int playersDefence) {
+int airMonster::attack(
+    int playersDefence) {  // calculates the damage and returns while outputing
+                           // the damage done
   int currentAttack = mAttack;
   int damage = currentAttack - playersDefence;
   if (damage < 0) {  // if less than 0, make sure damage = 0 so that it doesn't
@@ -39,11 +42,11 @@ int airMonster::attack(int playersDefence) {
        << " amounts of damage!!" << endl;
   cout << this->mName << "\'s Attack rose by " << atkUp << endl;
   cout << "--------------------------------------------------" << endl;
-  this->mAttack += this->atkUp;
-  return damage;
+  this->mAttack += this->atkUp;  // extra attribute used here
+  return damage;  // returns damage for output and association purposes
 }
 
-int airMonster::get_airHealth() { return mHealth; }
-int airMonster::get_airAttack() { return mAttack; }
-int airMonster::get_airDefence() { return mDefence; }
-string airMonster::get_airName() { return mName; }
+int airMonster::get_airHealth() { return mHealth; }    // gets monsters health
+int airMonster::get_airAttack() { return mAttack; }    // gets monsters attack
+int airMonster::get_airDefence() { return mDefence; }  // gets monsters defence
+string airMonster::get_airName() { return mName; }     // gets monsters name

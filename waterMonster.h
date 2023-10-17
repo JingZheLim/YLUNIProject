@@ -8,12 +8,15 @@ using namespace std;
 
 class waterMonster : public monster {
  protected:
-  int healEffect;
+  int healEffect;  // extra attribute which heals water monster
 
  public:
-  waterMonster();
-  int damageRecieved(int playersAttack);
-  int attack(int playersDefence);
+  waterMonster();                         // default constructor
+  int damageRecieved(int playersAttack);  // calculate damage recieved and
+                                          // directly changes objects attributes
+  int attack(int playersDefence);  // calculates damage done and returns that
+                                   // damage while outputing message
+  // getters
   int get_waterHealth();
   int get_waterAttack();
   int get_waterDefence();
