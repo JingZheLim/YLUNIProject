@@ -8,8 +8,14 @@ Our first ever C++ project in university, vital in introducing and appling the a
 *In progress*
 
 How to compile the game:
-* Copy paste into terminal 
+1. Simply download the repository:
+```
+git clone https://github.com/JingZheLim/YLUNIProject.git
+```
+2. Copy paste into terminal:
+```
 g++ fireMonster.cpp waterMonster.cpp earthMonster.cpp airMonster.cpp FirePlayer.cpp WaterPlayer.cpp EarthPlayer.cpp AirPlayer.cpp elementalDragon.cpp Player.cpp Spell.cpp main.cpp -o Elementals
+```
 
 How to run unit test:
 * In the terminal, enter "make" and hit enter 
